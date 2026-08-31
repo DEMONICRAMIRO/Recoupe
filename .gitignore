@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.env
+data/synthetic/*.json
+node_modules/
+.idea/
+.vscode/
+*.log
