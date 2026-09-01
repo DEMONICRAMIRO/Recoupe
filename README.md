@@ -4,9 +4,9 @@ Multi-agent revenue recovery system for the Razorpay Buildathon (Track 03). It w
 
 Architecture: `docs/architecture.md` — Folder layout: `docs/project-structure.md`
 
-## Status: Phase 1 (Foundation) complete
+## Status: Phase 2 (Payment Agent + Comms Layer v1) complete
 
-Plumbing only. Synthetic data flows from the generator, through the LangGraph orchestrator's classify node, into four stub sub-agents with 100% correct routing — proven by the test suite. Real diagnosis and decision logic arrives in Phase 2+.
+Phase 1 plumbing is complete. Phase 2 now routes payment failures through a real six-stage Payment Agent pipeline, applies deterministic retry and cooldown bounds, persists audit records, and sends through shared Twilio/SMTP Comms Layer functions. Cart, Renewal, and Invoice remain Phase 3/4 stubs.
 
 ## Re-run instructions
 
@@ -18,11 +18,13 @@ Regenerate synthetic data (outputs `data/synthetic/events.json` + `customer_hist
 backend\.venv\Scripts\python data\synthetic\generate.py
 ```
 
-Run the Phase 1 test suite:
+Run the full Phase 1 + Phase 2 test suite:
 
 ```
 backend\.venv\Scripts\python -m pytest backend\tests\
 ```
+
+The Phase 2 suite performs real provider delivery checks: Twilio's trial SMS template path and SMTP email. WhatsApp plain-body delivery is implemented but unavailable for this account while Twilio business-initiated eligibility is pending; see `docs/demo-notes.md`.
 
 Run a full batch through the pipeline and print per-agent counts:
 
@@ -41,5 +43,5 @@ cd backend
 
 1. `python -m venv backend\.venv`
 2. `backend\.venv\Scripts\python -m pip install -r backend\requirements.txt`
-3. `copy backend\.env.example backend\.env` and set `DATABASE_URL` to your Postgres/Supabase instance
+3. `copy backend\.env.example backend\.env` and set the Postgres, Twilio, and SMTP values
 4. `cd backend && .venv\Scripts\alembic upgrade head`

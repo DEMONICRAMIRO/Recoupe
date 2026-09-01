@@ -1,5 +1,7 @@
 from typing import TypedDict
 
+from sqlalchemy.orm import Session
+
 from app.schemas.agent import SubAgentResponse
 from app.schemas.event import Event, EventType
 
@@ -13,8 +15,11 @@ ROUTE_TABLE = {
 
 class PipelineState(TypedDict, total=False):
     event: Event
+    db: Session
     routed_to: str
     response: SubAgentResponse
+    payment_result: SubAgentResponse
+    audit_log_id: int
 
 
 def classify(state: PipelineState) -> dict:
