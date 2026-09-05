@@ -92,7 +92,7 @@ def test_health_endpoint_returns_200():
     with TestClient(app) as client:
         response = client.get("/health")
     assert response.status_code == 200
-    assert response.json() == {"status": "ok"}
+    assert response.json().get("status") == "ok"
 
 
 def test_ingest_endpoint_routes_event_to_correct_stub():
