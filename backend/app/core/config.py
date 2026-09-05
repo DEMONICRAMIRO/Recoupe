@@ -34,6 +34,12 @@ class Settings(BaseSettings):
     # Invoice Agent gate — independent counters, not shared with Payment/Renewal/Cart
     invoice_max_escalations_30d: int = 2
     invoice_contact_cooldown_hours: int = 48
+    # Razorpay (Phase 5)
+    razorpay_key_id: str | None = None
+    razorpay_key_secret: str | None = None
+    razorpay_webhook_secret: str | None = None
+    # Frontend / CORS
+    frontend_origin: str = "http://localhost:5173"
 
     model_config = SettingsConfigDict(
         env_file=BACKEND_DIR / ".env",

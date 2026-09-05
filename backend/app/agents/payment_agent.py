@@ -9,6 +9,7 @@ from sqlalchemy.orm import Session
 
 from app.agents.orchestrator import PipelineState
 from app.core.config import settings
+from app.core.live_status import update_live_status
 from app.core.llm_client import get_llm
 from app.core.risk_gate import GateDecision, evaluate
 from app.db.models import AuditLogRow, CustomerHistoryRow, EventRow, utc_now
@@ -118,6 +119,8 @@ def _persist_event(db: Session, event: Event) -> None:
 
 def fetch_event(state: PaymentPipelineState) -> dict:
     event = state["event"]
+    if (ev := state.get("event")) is not None:
+        update_live_status(ev.event_id, "fetch", agent=AGENT_NAME)
     if event.event_type is not EventType.payment_failed:
         raise ValueError("Payment Agent accepts only payment_failed events")
     _persist_event(state["db"], event)
@@ -125,6 +128,8 @@ def fetch_event(state: PaymentPipelineState) -> dict:
 
 
 def enrich_context(state: PaymentPipelineState) -> dict:
+    if (ev := state.get("event")) is not None:
+        update_live_status(ev.event_id, "enrich", agent=AGENT_NAME)
     history = state["db"].get(CustomerHistoryRow, state["event"].customer_id)
     return {"customer_history": history, "stage_trace": _trace(state, "enrich")}
 
@@ -156,6 +161,8 @@ def _ambiguous_diagnosis(event: Event, history: CustomerHistoryRow | None) -> Pa
 
 
 def classify_payment(state: PaymentPipelineState) -> dict:
+    if (ev := state.get("event")) is not None:
+        update_live_status(ev.event_id, "classify", agent=AGENT_NAME)
     event = state["event"]
     code = (event.reason_code or "").strip().lower()
     cause = CAUSE_BY_REASON_CODE.get(code)
@@ -170,11 +177,15 @@ def classify_payment(state: PaymentPipelineState) -> dict:
 
 
 def gate_payment(state: PaymentPipelineState) -> dict:
+    if (ev := state.get("event")) is not None:
+        update_live_status(ev.event_id, "gate", agent=AGENT_NAME)
     gate = evaluate(state.get("customer_history"))
     return {"gate": gate, "stage_trace": _trace(state, "gate")}
 
 
 def decide_payment(state: PaymentPipelineState) -> dict:
+    if (ev := state.get("event")) is not None:
+        update_live_status(ev.event_id, "decide", agent=AGENT_NAME)
     diagnosis = state["diagnosis"]
     gate = state["gate"]
     if not gate.allowed:
@@ -270,6 +281,8 @@ def _write_audit(
 
 
 def execute_and_log(state: PaymentPipelineState) -> dict:
+    if (ev := state.get("event")) is not None:
+        update_live_status(ev.event_id, "execute_log", agent=AGENT_NAME)
     event = state["event"]
     diagnosis = state["diagnosis"]
     gate = state["gate"]

@@ -9,6 +9,7 @@ from sqlalchemy.orm import Session
 
 from app.agents.orchestrator import PipelineState
 from app.core.config import settings
+from app.core.live_status import update_live_status
 from app.core.risk_gate import GateDecision, evaluate, evaluate_call
 from app.db.models import AuditLogRow, CustomerHistoryRow, EventRow, utc_now
 from app.db.session import SessionLocal
@@ -103,6 +104,7 @@ def _persist_event(db: Session, event: Event) -> None:
 
 def fetch_event(state: RenewalPipelineState) -> dict:
     event = state["event"]
+    if (_ev := state.get("event")) is not None: update_live_status(_ev.event_id, "fetch", agent=AGENT_NAME)
     if event.event_type is not EventType.renewal_failed:
         raise ValueError("Renewal Agent accepts only renewal_failed events")
     _persist_event(state["db"], event)
@@ -110,11 +112,13 @@ def fetch_event(state: RenewalPipelineState) -> dict:
 
 
 def enrich_context(state: RenewalPipelineState) -> dict:
+    if (_ev := state.get("event")) is not None: update_live_status(_ev.event_id, "enrich", agent=AGENT_NAME)
     history = state["db"].get(CustomerHistoryRow, state["event"].customer_id)
     return {"customer_history": history, "stage_trace": _trace(state, "enrich")}
 
 
 def diagnose_renewal(state: RenewalPipelineState) -> dict:
+    if (_ev := state.get("event")) is not None: update_live_status(_ev.event_id, "classify", agent=AGENT_NAME)
     event = state["event"]
     code = (event.reason_code or "").strip().lower()
     cause = CAUSE_BY_REASON_CODE.get(code, "processor_error")
@@ -126,11 +130,13 @@ def diagnose_renewal(state: RenewalPipelineState) -> dict:
 
 
 def gate_renewal(state: RenewalPipelineState) -> dict:
+    if (_ev := state.get("event")) is not None: update_live_status(_ev.event_id, "gate", agent=AGENT_NAME)
     gate = evaluate(state.get("customer_history"))
     return {"gate": gate, "stage_trace": _trace(state, "gate")}
 
 
 def decide_renewal(state: RenewalPipelineState) -> dict:
+    if (_ev := state.get("event")) is not None: update_live_status(_ev.event_id, "decide", agent=AGENT_NAME)
     diagnosis = state["diagnosis"]
     gate = state["gate"]
     event = state["event"]
@@ -288,6 +294,7 @@ def _write_audit(
 
 
 def execute_and_log(state: RenewalPipelineState) -> dict:
+    if (_ev := state.get("event")) is not None: update_live_status(_ev.event_id, "execute_log", agent=AGENT_NAME)
     event = state["event"]
     diagnosis = state["diagnosis"]
     gate = state["gate"]

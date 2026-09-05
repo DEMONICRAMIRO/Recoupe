@@ -10,6 +10,7 @@ from sqlalchemy.orm import Session
 
 from app.agents.orchestrator import PipelineState
 from app.core.config import settings
+from app.core.live_status import update_live_status
 from app.core.llm_client import LLMUnavailable, ModelMessage, chat
 from app.core.risk_gate import GateDecision, evaluate, evaluate_call
 from app.db.models import AuditLogRow, CustomerHistoryRow, EventRow, utc_now
@@ -110,6 +111,7 @@ def _persist_event(db: Session, event: Event) -> None:
 
 def fetch_event(state: CartPipelineState) -> dict:
     event = state["event"]
+    if (_ev := state.get("event")) is not None: update_live_status(_ev.event_id, "fetch", agent=AGENT_NAME)
     if event.event_type is not EventType.cart_abandoned:
         raise ValueError("Cart Agent accepts only cart_abandoned events")
     _persist_event(state["db"], event)
@@ -117,6 +119,7 @@ def fetch_event(state: CartPipelineState) -> dict:
 
 
 def enrich_context(state: CartPipelineState) -> dict:
+    if (_ev := state.get("event")) is not None: update_live_status(_ev.event_id, "enrich", agent=AGENT_NAME)
     history = state["db"].get(CustomerHistoryRow, state["event"].customer_id)
     return {"customer_history": history, "stage_trace": _trace(state, "enrich")}
 
@@ -193,6 +196,7 @@ def _heuristic_diagnosis(event: Event, history: CustomerHistoryRow | None) -> Ca
 
 
 def diagnose_cart(state: CartPipelineState) -> dict:
+    if (_ev := state.get("event")) is not None: update_live_status(_ev.event_id, "classify", agent=AGENT_NAME)
     event = state["event"]
     history = state.get("customer_history")
     diagnosis = _llm_diagnosis(event, history) or _heuristic_diagnosis(event, history)
@@ -200,11 +204,13 @@ def diagnose_cart(state: CartPipelineState) -> dict:
 
 
 def gate_cart(state: CartPipelineState) -> dict:
+    if (_ev := state.get("event")) is not None: update_live_status(_ev.event_id, "gate", agent=AGENT_NAME)
     gate = evaluate(state.get("customer_history"))
     return {"gate": gate, "stage_trace": _trace(state, "gate")}
 
 
 def decide_cart(state: CartPipelineState) -> dict:
+    if (_ev := state.get("event")) is not None: update_live_status(_ev.event_id, "decide", agent=AGENT_NAME)
     diagnosis = state["diagnosis"]
     gate = state["gate"]
     if not gate.allowed:
@@ -315,6 +321,7 @@ def _write_audit(
 
 
 def execute_and_log(state: CartPipelineState) -> dict:
+    if (_ev := state.get("event")) is not None: update_live_status(_ev.event_id, "execute_log", agent=AGENT_NAME)
     event = state["event"]
     diagnosis = state["diagnosis"]
     gate = state["gate"]

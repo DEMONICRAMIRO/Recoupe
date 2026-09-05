@@ -22,6 +22,7 @@ from sqlalchemy.orm import Session
 from app.agents.orchestrator import PipelineState
 from app.core.call_priority import CallPriorityResult, score_call_priority
 from app.core.config import settings
+from app.core.live_status import update_live_status
 from app.core.risk_gate import GateDecision, evaluate_invoice_gate, evaluate_call
 from app.db.models import AuditLogRow, CustomerHistoryRow, EventRow, utc_now
 from app.db.session import SessionLocal
@@ -125,6 +126,7 @@ def _persist_event(db: Session, event: Event) -> None:
 
 def fetch_event(state: InvoicePipelineState) -> dict:
     event = state["event"]
+    if (_ev := state.get("event")) is not None: update_live_status(_ev.event_id, "fetch", agent=AGENT_NAME)
     db = state["db"]
     _persist_event(db, event)
     db.flush()
@@ -138,6 +140,7 @@ def fetch_event(state: InvoicePipelineState) -> dict:
 
 def enrich_context(state: InvoicePipelineState) -> dict:
     """Plain DB lookup — no LLM, per architecture non-negotiable."""
+    if (_ev := state.get("event")) is not None: update_live_status(_ev.event_id, "enrich", agent=AGENT_NAME)
     event = state["event"]
     db = state["db"]
     history = db.get(CustomerHistoryRow, event.customer_id)
@@ -156,6 +159,7 @@ def enrich_context(state: InvoicePipelineState) -> dict:
 
 def classify_invoice(state: InvoicePipelineState) -> dict:
     """Rules-only bucketing. Days overdue is a clean signal — no LLM needed."""
+    if (_ev := state.get("event")) is not None: update_live_status(_ev.event_id, "classify", agent=AGENT_NAME)
     event = state["event"]
     days_overdue = int(event.metadata.get("days_overdue", 0))
 
@@ -223,6 +227,7 @@ def _invoice_contact_history(db: Session, customer_id: str, now: datetime | None
 
 def gate_invoice(state: InvoicePipelineState) -> dict:
     """Hard-coded gate using Invoice's independent counters — never an LLM call."""
+    if (_ev := state.get("event")) is not None: update_live_status(_ev.event_id, "gate", agent=AGENT_NAME)
     event = state["event"]
     db = state["db"]
     invoice_info = _invoice_contact_history(db, event.customer_id)
@@ -236,6 +241,7 @@ def gate_invoice(state: InvoicePipelineState) -> dict:
 # ---------------------------------------------------------------------------
 
 def decide_invoice(state: InvoicePipelineState) -> dict:
+    if (_ev := state.get("event")) is not None: update_live_status(_ev.event_id, "decide", agent=AGENT_NAME)
     gate = state["gate"]
     classification = state["classification"]
     priority = state["call_priority"]
@@ -449,6 +455,7 @@ def _write_audit(
 
 
 def execute_and_log(state: InvoicePipelineState) -> dict:
+    if (_ev := state.get("event")) is not None: update_live_status(_ev.event_id, "execute_log", agent=AGENT_NAME)
     event = state["event"]
     classification = state["classification"]
     priority = state["call_priority"]

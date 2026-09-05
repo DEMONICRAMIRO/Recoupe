@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Recoupe — Dashboard mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#15171C; --ink-2:#1F222A;
+    --paper:#FAF9F6; --card:#FFFFFF;
+    --line:#E7E4DC; --line-strong:#D8D4C8;
+    --text-1:#1B1C1E; --text-2:#63625C; --text-3:#96948B;
+    --amber:#C77D2E; --amber-bg:#FBEDDD; --amber-text:#8A5218;
+    --sage:#5B7A5C; --sage-bg:#E7EFE4; --sage-text:#3D5B3E;
+    --rust:#B23D30; --rust-bg:#F7E6E3; --rust-text:#8C2E23;
+    --slate-bg:#EEECE6; --slate-text:#6B6A62;
+    --radius:10px;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--paper);color:var(--text-1);font-family:'Inter',system-ui,sans-serif;font-size:14px;line-height:1.5;}
+  .shell{display:grid;grid-template-columns:220px 1fr;min-height:860px;max-width:1240px;margin:0 auto;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--card);}
+  .side{background:var(--ink);color:#D9D8D3;padding:22px 16px;display:flex;flex-direction:column;gap:28px;}
+  .brand{display:flex;align-items:center;gap:9px;padding:0 6px;}
+  .brand-mark{width:26px;height:26px;border-radius:7px;background:var(--amber);display:flex;align-items:center;justify-content:center;color:#241505;font-weight:600;font-size:13px;}
+  .brand-name{font-weight:600;font-size:15px;color:#fff;letter-spacing:0.01em;}
+  .brand-sub{font-size:11px;color:#8B8A82;margin-top:1px;}
+  nav{display:flex;flex-direction:column;gap:2px;}
+  .nav-label{font-size:11px;color:#75746C;padding:10px 10px 4px;}
+  .nav-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;color:#C3C2BB;font-size:13.5px;cursor:pointer;border:none;background:none;width:100%;text-align:left;font-family:inherit;}
+  .nav-item:hover{background:#1D2027;color:#fff;}
+  .nav-item.active{background:#25282F;color:#fff;}
+  .nav-dot{width:6px;height:6px;border-radius:50%;background:#54524A;flex-shrink:0;}
+  .nav-item.active .nav-dot{background:var(--amber);}
+  .side-foot{margin-top:auto;padding:12px 10px;border-top:1px solid #2A2D34;font-size:12px;color:#8B8A82;}
+  .side-foot b{color:#D9D8D3;font-weight:500;}
+
+  .main{display:flex;flex-direction:column;min-width:0;}
+  .topbar{display:flex;align-items:center;justify-content:space-between;padding:18px 28px;border-bottom:1px solid var(--line);}
+  .topbar h1{font-size:17px;font-weight:500;margin:0;}
+  .topbar p{margin:2px 0 0;font-size:13px;color:var(--text-2);}
+  .top-right{display:flex;align-items:center;gap:10px;}
+  .pill{display:flex;align-items:center;gap:6px;font-size:12.5px;padding:6px 11px;border-radius:20px;border:1px solid var(--line-strong);color:var(--text-2);background:var(--card);}
+  .pill .dot{width:6px;height:6px;border-radius:50%;background:var(--sage);}
+  .avatar{width:30px;height:30px;border-radius:50%;background:var(--slate-bg);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--text-2);}
+
+  .content{padding:24px 28px 28px;display:flex;flex-direction:column;gap:22px;}
+  .view{display:none;}
+  .view.active{display:flex;flex-direction:column;gap:22px;}
+
+  .hero-row{display:grid;grid-template-columns:1.15fr 1fr 1fr;gap:14px;}
+  .hero-card{background:var(--ink);border-radius:var(--radius);padding:20px 22px;color:#EDECE7;display:flex;flex-direction:column;justify-content:space-between;}
+  .hero-label{font-size:12.5px;color:#9F9E96;}
+  .hero-figure{font-family:'Source Serif 4',serif;font-weight:500;font-size:38px;margin:8px 0 4px;color:#fff;}
+  .hero-sub{font-size:12.5px;color:#B7B6AE;}
+  .hero-sub b{color:var(--amber);font-weight:500;}
+  .stat-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;display:flex;flex-direction:column;justify-content:space-between;}
+  .stat-label{font-size:12.5px;color:var(--text-2);}
+  .stat-figure{font-size:26px;font-weight:500;margin:8px 0 4px;}
+  .stat-sub{font-size:12.5px;color:var(--text-3);}
+  .stat-sub.up{color:var(--sage-text);}
+  .stat-sub.warn{color:var(--rust-text);}
+
+  .section-head{display:flex;align-items:baseline;justify-content:space-between;}
+  .section-head h2{font-size:14.5px;font-weight:500;margin:0;}
+  .section-head span{font-size:12.5px;color:var(--text-3);}
+
+  .agent-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+  .agent-card{border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;background:var(--card);cursor:pointer;}
+  .agent-card:hover{border-color:var(--line-strong);}
+  .agent-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+  .agent-name{font-size:13.5px;font-weight:500;}
+  .agent-badge{font-size:11px;padding:2px 8px;border-radius:20px;}
+  .agent-badge.live{background:var(--sage-bg);color:var(--sage-text);}
+  .agent-metric-row{display:flex;justify-content:space-between;font-size:12.5px;color:var(--text-2);margin-top:4px;}
+  .agent-metric-row b{color:var(--text-1);font-weight:500;}
+  .agent-bar{height:5px;border-radius:3px;background:var(--slate-bg);margin-top:10px;overflow:hidden;}
+  .agent-bar-fill{height:100%;background:var(--amber);border-radius:3px;}
+
+  .audit-card{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;}
+  .audit-toolbar{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--line);}
+  .audit-toolbar h2{font-size:14.5px;font-weight:500;margin:0;}
+  .filters{display:flex;gap:8px;}
+  .filter{font-size:12px;padding:5px 10px;border-radius:7px;border:1px solid var(--line-strong);color:var(--text-2);background:var(--card);cursor:pointer;}
+  .filter.active{background:var(--ink);color:#fff;border-color:var(--ink);}
+
+  table{width:100%;border-collapse:collapse;}
+  thead th{text-align:left;font-size:11.5px;font-weight:500;color:var(--text-3);padding:10px 16px;border-bottom:1px solid var(--line);background:#FBFAF8;}
+  tbody td{padding:12px 16px;border-bottom:1px solid var(--line);font-size:13px;vertical-align:middle;}
+  tbody tr:last-child td{border-bottom:none;}
+  .cust{display:flex;align-items:center;gap:9px;}
+  .cust-avatar{width:28px;height:28px;border-radius:50%;background:var(--slate-bg);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--text-2);flex-shrink:0;}
+  .cust-name{font-weight:500;font-size:13px;}
+  .cust-sub{font-size:11.5px;color:var(--text-3);}
+  .type-tag{font-size:12px;color:var(--text-2);}
+  .trail{display:flex;gap:3px;}
+  .trail span{width:6px;height:6px;border-radius:50%;background:var(--line-strong);}
+  .trail span.done{background:var(--amber);}
+  .trail span.blocked{background:var(--rust);}
+  .status-badge{font-size:11.5px;padding:3px 9px;border-radius:20px;display:inline-block;}
+  .status-badge.recovered{background:var(--sage-bg);color:var(--sage-text);}
+  .status-badge.blocked{background:var(--rust-bg);color:var(--rust-text);}
+  .status-badge.pending{background:var(--amber-bg);color:var(--amber-text);}
+  .status-badge.sent{background:var(--slate-bg);color:var(--slate-text);}
+  .amount{font-weight:500;}
+  .reason{color:var(--text-2);font-size:12.5px;}
+
+  .back-link{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-2);cursor:pointer;width:fit-content;}
+  .back-link:hover{color:var(--text-1);}
+
+  .cust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+  .cust-card{border:1px solid var(--line);border-radius:var(--radius);padding:16px;background:var(--card);}
+  .cust-card-top{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+  .cust-card .cust-avatar{width:36px;height:36px;font-size:13px;}
+  .cust-card-name{font-weight:500;font-size:13.5px;}
+  .cust-card-meta{font-size:12px;color:var(--text-3);}
+  .cust-stat-row{display:flex;justify-content:space-between;font-size:12.5px;color:var(--text-2);padding:5px 0;border-top:1px solid var(--line);}
+  .cust-stat-row:first-of-type{border-top:none;padding-top:0;}
+  .cust-stat-row b{color:var(--text-1);font-weight:500;}
+
+  .agent-detail-head{display:flex;align-items:center;justify-content:space-between;}
+  .agent-detail-title{display:flex;align-items:center;gap:12px;}
+  .agent-icon{width:40px;height:40px;border-radius:10px;background:var(--ink);display:flex;align-items:center;justify-content:center;color:var(--amber);font-weight:600;font-size:15px;}
+  .agent-detail-title h1{font-size:18px;margin:0;}
+  .agent-detail-title p{margin:2px 0 0;font-size:13px;color:var(--text-2);}
+  .stage-flow{display:flex;align-items:center;gap:0;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;}
+  .stage-flow .stage{flex:1;padding:14px 10px;text-align:center;border-right:1px solid var(--line);background:var(--card);}
+  .stage-flow .stage:last-child{border-right:none;}
+  .stage-flow .stage.llm{background:var(--amber-bg);}
+  .stage-num{font-size:11px;color:var(--text-3);margin-bottom:4px;}
+  .stage-name{font-size:12.5px;font-weight:500;}
+  .stage-tag{font-size:10.5px;color:var(--text-3);margin-top:3px;}
+  .stage-flow .stage.llm .stage-tag{color:var(--amber-text);}
+
+  .gate-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .gate-card{border:1px solid var(--line);border-radius:var(--radius);padding:16px;background:var(--card);}
+  .gate-card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+  .gate-card-head h3{font-size:13.5px;font-weight:500;margin:0;}
+  .gate-rule{display:flex;justify-content:space-between;padding:8px 0;border-top:1px solid var(--line);font-size:12.5px;}
+  .gate-rule:first-of-type{border-top:none;padding-top:0;}
+  .gate-rule-name{color:var(--text-2);}
+  .gate-rule-val{font-weight:500;}
+  .deterministic-tag{font-size:10.5px;background:var(--slate-bg);color:var(--slate-text);padding:2px 7px;border-radius:20px;}
+
+  .channel-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
+  .channel-card{border:1px solid var(--line);border-radius:var(--radius);padding:16px;background:var(--card);}
+  .channel-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+  .channel-name{font-size:14px;font-weight:500;}
+  .channel-status{font-size:11px;padding:2px 9px;border-radius:20px;}
+  .channel-status.live{background:var(--sage-bg);color:var(--sage-text);}
+  .channel-status.blocked{background:var(--rust-bg);color:var(--rust-text);}
+  .channel-desc{font-size:12.5px;color:var(--text-2);margin:0 0 10px;}
+  .channel-meta{font-size:11.5px;color:var(--text-3);border-top:1px solid var(--line);padding-top:8px;}
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <aside class="side">
+    <div class="brand">
+      <div class="brand-mark">R</div>
+      <div>
+        <div class="brand-name">Recoupe</div>
+        <div class="brand-sub">Revenue recovery</div>
+      </div>
+    </div>
+
+    <nav>
+      <div class="nav-label">Overview</div>
+      <button class="nav-item active" data-view="dashboard"><span class="nav-dot"></span>Dashboard</button>
+      <button class="nav-item" data-view="audit"><span class="nav-dot"></span>Audit log</button>
+      <button class="nav-item" data-view="customers"><span class="nav-dot"></span>Customers</button>
+
+      <div class="nav-label">Agents</div>
+      <button class="nav-item" data-view="agent-payment"><span class="nav-dot"></span>Payment</button>
+      <button class="nav-item" data-view="agent-cart"><span class="nav-dot"></span>Cart</button>
+      <button class="nav-item" data-view="agent-renewal"><span class="nav-dot"></span>Renewal</button>
+      <button class="nav-item" data-view="agent-invoice"><span class="nav-dot"></span>Invoice</button>
+
+      <div class="nav-label">System</div>
+      <button class="nav-item" data-view="gate-rules"><span class="nav-dot"></span>Risk gate rules</button>
+      <button class="nav-item" data-view="comms"><span class="nav-dot"></span>Comms channels</button>
+    </nav>
+
+    <div class="side-foot">Batch run <b>#128</b> · 4m 41s</div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <div>
+        <h1 id="topbar-title">Recovery overview</h1>
+        <p id="topbar-sub">What the agents did today, and why.</p>
+      </div>
+      <div class="top-right">
+        <div class="pill"><span class="dot"></span>All agents live</div>
+        <div class="avatar">AK</div>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <div class="view active" id="view-dashboard">
+        <div class="hero-row">
+          <div class="hero-card">
+            <div class="hero-label">Recovered this week</div>
+            <div class="hero-figure">₹4,82,300</div>
+            <div class="hero-sub"><b>68%</b> of flagged revenue reached, across 4 agents</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Events processed</div>
+            <div class="stat-figure">1,204</div>
+            <div class="stat-sub up">0 dropped</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Blocked by risk gate</div>
+            <div class="stat-figure">86</div>
+            <div class="stat-sub">Cooldown or contact cap reached</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="section-head" style="margin-bottom:12px;"><h2>Agents</h2><span>Updated 2 min ago</span></div>
+          <div class="agent-row">
+            <div class="agent-card" data-view="agent-payment">
+              <div class="agent-top"><span class="agent-name">Payment</span><span class="agent-badge live">Live</span></div>
+              <div class="agent-metric-row"><span>Recovery rate</span><b>71%</b></div>
+              <div class="agent-bar"><div class="agent-bar-fill" style="width:71%"></div></div>
+            </div>
+            <div class="agent-card" data-view="agent-cart">
+              <div class="agent-top"><span class="agent-name">Cart</span><span class="agent-badge live">Live</span></div>
+              <div class="agent-metric-row"><span>Recovery rate</span><b>44%</b></div>
+              <div class="agent-bar"><div class="agent-bar-fill" style="width:44%"></div></div>
+            </div>
+            <div class="agent-card" data-view="agent-renewal">
+              <div class="agent-top"><span class="agent-name">Renewal</span><span class="agent-badge live">Live</span></div>
+              <div class="agent-metric-row"><span>Recovery rate</span><b>59%</b></div>
+              <div class="agent-bar"><div class="agent-bar-fill" style="width:59%"></div></div>
+            </div>
+            <div class="agent-card" data-view="agent-invoice">
+              <div class="agent-top"><span class="agent-name">Invoice</span><span class="agent-badge live">Live</span></div>
+              <div class="agent-metric-row"><span>Recovery rate</span><b>63%</b></div>
+              <div class="agent-bar"><div class="agent-bar-fill" style="width:63%"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="audit-card">
+          <div class="audit-toolbar">
+            <h2>Recent activity</h2>
+            <span style="font-size:12.5px;color:var(--text-3);cursor:pointer;" data-view="audit">View full log →</span>
+          </div>
+          <table id="dashboard-audit-table"></table>
+        </div>
+      </div>
+
+      <div class="view" id="view-audit">
+        <div class="audit-card">
+          <div class="audit-toolbar">
+            <h2>Audit log</h2>
+            <div class="filters">
+              <div class="filter active" data-filter="all">All</div>
+              <div class="filter" data-filter="recovered">Recovered</div>
+              <div class="filter" data-filter="blocked">Blocked</div>
+              <div class="filter" data-filter="pending">Pending</div>
+            </div>
+          </div>
+          <table id="audit-table"></table>
+        </div>
+      </div>
+
+      <div class="view" id="view-customers">
+        <div class="section-head"><h2>Customers</h2><span>128 with recovery history</span></div>
+        <div class="cust-grid" id="customer-grid"></div>
+      </div>
+
+      <div class="view" id="view-agent-payment"></div>
+      <div class="view" id="view-agent-cart"></div>
+      <div class="view" id="view-agent-renewal"></div>
+      <div class="view" id="view-agent-invoice"></div>
+
+      <div class="view" id="view-gate-rules">
+        <div class="section-head"><h2>Risk and compliance gate</h2><span>Deterministic — never an LLM call</span></div>
+        <div class="gate-grid">
+          <div class="gate-card">
+            <div class="gate-card-head"><h3>Payment</h3><span class="deterministic-tag">Rules only</span></div>
+            <div class="gate-rule"><span class="gate-rule-name">Max retries</span><span class="gate-rule-val">3 per 7 days</span></div>
+            <div class="gate-rule"><span class="gate-rule-name">Cooldown window</span><span class="gate-rule-val">24 hours</span></div>
+          </div>
+          <div class="gate-card">
+            <div class="gate-card-head"><h3>Cart</h3><span class="deterministic-tag">Rules only</span></div>
+            <div class="gate-rule"><span class="gate-rule-name">Contact frequency cap</span><span class="gate-rule-val">3 per 7 days</span></div>
+            <div class="gate-rule"><span class="gate-rule-name">Voice-call cap</span><span class="gate-rule-val">1 per 7 days, independent counter</span></div>
+          </div>
+          <div class="gate-card">
+            <div class="gate-card-head"><h3>Renewal</h3><span class="deterministic-tag">Rules only</span></div>
+            <div class="gate-rule"><span class="gate-rule-name">Grace period</span><span class="gate-rule-val">7 days</span></div>
+            <div class="gate-rule"><span class="gate-rule-name">Retry limit</span><span class="gate-rule-val">2 attempts</span></div>
+            <div class="gate-rule"><span class="gate-rule-name">Call-frequency cap</span><span class="gate-rule-val">1 per 14 days, independent counter</span></div>
+          </div>
+          <div class="gate-card">
+            <div class="gate-card-head"><h3>Invoice</h3><span class="deterministic-tag">Rules only</span></div>
+            <div class="gate-rule"><span class="gate-rule-name">Escalation cap</span><span class="gate-rule-val">2 per 30 days</span></div>
+            <div class="gate-rule"><span class="gate-rule-name">Contact frequency</span><span class="gate-rule-val">Standard cap, independent counter</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="view" id="view-comms">
+        <div class="section-head"><h2>Comms channels</h2><span>Shared by all 4 agents</span></div>
+        <div class="channel-grid">
+          <div class="channel-card">
+            <div class="channel-top"><span class="channel-name">Email</span><span class="channel-status live">Live</span></div>
+            <p class="channel-desc">SMTP, real delivery confirmed since Phase 2.</p>
+            <div class="channel-meta">Used by all 4 agents</div>
+          </div>
+          <div class="channel-card">
+            <div class="channel-top"><span class="channel-name">SMS</span><span class="channel-status live">Live</span></div>
+            <p class="channel-desc">Twilio, real delivery confirmed since Phase 2. Standing real-delivery channel for testing.</p>
+            <div class="channel-meta">Used by all 4 agents</div>
+          </div>
+          <div class="channel-card">
+            <div class="channel-top"><span class="channel-name">WhatsApp</span><span class="channel-status blocked">Sender built, delivery blocked</span></div>
+            <p class="channel-desc">Business-initiated sends require WhatsApp Sender approval — not achievable on this trial account. Code is complete and tested against mocked responses.</p>
+            <div class="channel-meta">Falls back to SMS for real delivery</div>
+          </div>
+          <div class="channel-card">
+            <div class="channel-top"><span class="channel-name">Voice call</span><span class="channel-status live">Infrastructure confirmed</span></div>
+            <p class="channel-desc">Twilio Voice, Hinglish TTS. Infrastructure confirmed correct at every layer; final audio verification stayed inconclusive.</p>
+            <div class="channel-meta">Used by Cart, Renewal, Invoice</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+const AUDIT_ROWS = [
+  {init:'RM',name:'Rhea Malhotra',sub:'Payment failed',type:'Insufficient funds',trail:[1,1,1,1,1,1],reason:'Retried on alt route, gate allowed — no prior retries in 7d',amount:'₹2,450',status:'recovered',statusLabel:'Recovered'},
+  {init:'SK',name:'Sameer Kapoor',sub:'Cart abandoned',type:'Price sensitivity',trail:[1,1,1,-1,0,0],reason:'Blocked — 3 contacts already sent this week',amount:'₹8,990',status:'blocked',statusLabel:'Blocked'},
+  {init:'PN',name:'Priya Nair',sub:'Invoice overdue',type:'90 days, broken promise',trail:[1,1,1,1,1,0],reason:'Escalated to call — high priority score, LLM-assisted',amount:'₹34,000',status:'pending',statusLabel:'Escalated'},
+  {init:'AJ',name:'Arjun Joshi',sub:'Renewal failed',type:'Card expired',trail:[1,1,1,1,1,1],reason:'Card-update prompt sent via SMS + email',amount:'₹1,199',status:'sent',statusLabel:'Sent'},
+  {init:'MV',name:'Meera Verma',sub:'Payment failed',type:'Bank timeout',trail:[1,1,1,1,1,1],reason:'Ambiguous decline code — LLM classified as temporary, retried',amount:'₹5,600',status:'recovered',statusLabel:'Recovered'},
+  {init:'KT',name:'Karan Thakur',sub:'Invoice overdue',type:'30 days, good reliability',trail:[1,1,1,1,1,1],reason:'First reminder — rules-only, no LLM needed',amount:'₹12,300',status:'sent',statusLabel:'Sent'},
+];
+
+function trailHTML(trail){
+  return '<div class="trail">' + trail.map(t => t===1?'<span class="done"></span>':t===-1?'<span class="blocked"></span>':'<span></span>').join('') + '</div>';
+}
+function rowHTML(r){
+  return '<tr><td><div class="cust"><div class="cust-avatar">' + r.init + '</div><div><div class="cust-name">' + r.name + '</div><div class="cust-sub">' + r.sub + '</div></div></div></td>' +
+    '<td><span class="type-tag">' + r.type + '</span></td>' +
+    '<td>' + trailHTML(r.trail) + '</td>' +
+    '<td><span class="reason">' + r.reason + '</span></td>' +
+    '<td class="amount">' + r.amount + '</td>' +
+    '<td><span class="status-badge ' + r.status + '">' + r.statusLabel + '</span></td></tr>';
+}
+function tableHTML(rows){
+  return '<thead><tr><th>Customer</th><th>Event</th><th>Pipeline</th><th>Reasoning</th><th>Amount</th><th>Status</th></tr></thead><tbody>' + rows.map(rowHTML).join('') + '</tbody>';
+}
+document.getElementById('dashboard-audit-table').innerHTML = tableHTML(AUDIT_ROWS.slice(0,4));
+document.getElementById('audit-table').innerHTML = tableHTML(AUDIT_ROWS);
+
+document.querySelectorAll('#view-audit .filter').forEach(function(f){
+  f.addEventListener('click', function(){
+    document.querySelectorAll('#view-audit .filter').forEach(function(x){ x.classList.remove('active'); });
+    f.classList.add('active');
+    var key = f.dataset.filter;
+    var rows = key === 'all' ? AUDIT_ROWS : AUDIT_ROWS.filter(function(r){ return r.status === key; });
+    document.getElementById('audit-table').innerHTML = tableHTML(rows);
+  });
+});
+
+const CUSTOMERS = [
+  {init:'RM',name:'Rhea Malhotra',meta:'Payment · 3 events',recovered:'₹6,200',contacts:'2 this week',reliability:'Good'},
+  {init:'SK',name:'Sameer Kapoor',meta:'Cart · 5 events',recovered:'₹0',contacts:'3 this week (capped)',reliability:'Fair'},
+  {init:'PN',name:'Priya Nair',meta:'Invoice · 2 events',recovered:'₹0',contacts:'1 call pending',reliability:'Poor'},
+  {init:'AJ',name:'Arjun Joshi',meta:'Renewal · 1 event',recovered:'₹1,199',contacts:'1 this week',reliability:'Good'},
+  {init:'MV',name:'Meera Verma',meta:'Payment · 2 events',recovered:'₹5,600',contacts:'1 this week',reliability:'Good'},
+  {init:'KT',name:'Karan Thakur',meta:'Invoice · 4 events',recovered:'₹12,300',contacts:'1 this week',reliability:'Good'},
+];
+document.getElementById('customer-grid').innerHTML = CUSTOMERS.map(function(c){
+  return '<div class="cust-card"><div class="cust-card-top"><div class="cust-avatar">' + c.init + '</div><div><div class="cust-card-name">' + c.name + '</div><div class="cust-card-meta">' + c.meta + '</div></div></div>' +
+    '<div class="cust-stat-row"><span>Recovered</span><b>' + c.recovered + '</b></div>' +
+    '<div class="cust-stat-row"><span>Contacts</span><b>' + c.contacts + '</b></div>' +
+    '<div class="cust-stat-row"><span>Reliability</span><b>' + c.reliability + '</b></div></div>';
+}).join('');
+
+const AGENTS = {
+  payment: {
+    name:'Payment', rate:'71%',
+    desc:'Diagnoses why a payment failed and decides whether to retry, retry on an alternate route, or send a payment link.',
+    stages:[
+      {n:1,name:'Fetch',tag:'Rules'},{n:2,name:'Enrich',tag:'Rules'},
+      {n:3,name:'Classify',tag:'Rules, LLM if ambiguous',llm:true},
+      {n:4,name:'Gate',tag:'Rules'},{n:5,name:'Decide',tag:'Rules'},{n:6,name:'Execute',tag:'Rules'}
+    ],
+    rows: AUDIT_ROWS.filter(function(r){ return r.sub === 'Payment failed'; })
+  },
+  cart: {
+    name:'Cart', rate:'44%',
+    desc:'Scores the likely reason a cart was abandoned and nudges the customer, escalating to a voice call if there is no response.',
+    stages:[
+      {n:1,name:'Fetch',tag:'Rules'},{n:2,name:'Enrich',tag:'Rules'},
+      {n:3,name:'Diagnose',tag:'LLM — no clean rule signal',llm:true},
+      {n:4,name:'Gate',tag:'Rules'},{n:5,name:'Decide',tag:'Rules'},{n:6,name:'Execute',tag:'Rules'}
+    ],
+    rows: AUDIT_ROWS.filter(function(r){ return r.sub === 'Cart abandoned'; })
+  },
+  renewal: {
+    name:'Renewal', rate:'59%',
+    desc:'Classifies why a subscription renewal failed and prompts a card update, applies a grace period, or escalates.',
+    stages:[
+      {n:1,name:'Fetch',tag:'Rules'},{n:2,name:'Enrich',tag:'Rules'},
+      {n:3,name:'Classify',tag:'Rules'},
+      {n:4,name:'Gate',tag:'Rules'},{n:5,name:'Decide',tag:'Rules'},{n:6,name:'Execute',tag:'Rules'}
+    ],
+    rows: AUDIT_ROWS.filter(function(r){ return r.sub === 'Renewal failed'; })
+  },
+  invoice: {
+    name:'Invoice', rate:'63%',
+    desc:'Buckets overdue invoices by days overdue and scores call priority to decide who is worth escalating to a phone call.',
+    stages:[
+      {n:1,name:'Fetch',tag:'Rules'},{n:2,name:'Enrich',tag:'Rules'},
+      {n:3,name:'Classify',tag:'Rules'},{n:4,name:'Gate',tag:'Rules'},
+      {n:5,name:'Decide',tag:'Rules, LLM for call priority',llm:true},
+      {n:6,name:'Execute',tag:'Rules'}
+    ],
+    rows: AUDIT_ROWS.filter(function(r){ return r.sub === 'Invoice overdue'; })
+  }
+};
+Object.keys(AGENTS).forEach(function(key){
+  var a = AGENTS[key];
+  var stagesHTML = a.stages.map(function(s){
+    return '<div class="stage' + (s.llm ? ' llm' : '') + '"><div class="stage-num">' + s.n + '</div><div class="stage-name">' + s.name + '</div><div class="stage-tag">' + s.tag + '</div></div>';
+  }).join('');
+  document.getElementById('view-agent-' + key).innerHTML =
+    '<div class="back-link" data-view="dashboard">← Back to dashboard</div>' +
+    '<div class="agent-detail-head"><div class="agent-detail-title"><div class="agent-icon">' + a.name[0] + '</div>' +
+    '<div><h1>' + a.name + ' agent</h1><p>' + a.desc + '</p></div></div>' +
+    '<div class="stat-card" style="min-width:140px;"><div class="stat-label">Recovery rate</div><div class="stat-figure">' + a.rate + '</div></div></div>' +
+    '<div><div class="section-head" style="margin-bottom:12px;"><h2>Pipeline</h2><span>Six stages, same shape as every agent</span></div>' +
+    '<div class="stage-flow">' + stagesHTML + '</div></div>' +
+    '<div class="audit-card"><div class="audit-toolbar"><h2>Recent decisions</h2></div><table>' + tableHTML(a.rows) + '</table></div>';
+});
+
+function showView(viewKey){
+  document.querySelectorAll('.view').forEach(function(v){ v.classList.remove('active'); });
+  document.getElementById('view-' + viewKey).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(function(n){ n.classList.remove('active'); });
+  var navBtn = document.querySelector('.nav-item[data-view="' + viewKey + '"]');
+  if (navBtn) navBtn.classList.add('active');
+  var titles = {
+    dashboard:['Recovery overview','What the agents did today, and why.'],
+    audit:['Audit log','Every action taken, with the reasoning behind it.'],
+    customers:['Customers','Recovery history by customer.'],
+    'agent-payment':['Payment agent','Six-stage pipeline for failed payments.'],
+    'agent-cart':['Cart agent','Six-stage pipeline for abandoned carts.'],
+    'agent-renewal':['Renewal agent','Six-stage pipeline for failed renewals.'],
+    'agent-invoice':['Invoice agent','Six-stage pipeline for overdue invoices.'],
+    'gate-rules':['Risk gate rules','Deterministic bounds — never an LLM call.'],
+    comms:['Comms channels','Shared senders, used by all four agents.']
+  };
+  var t = titles[viewKey] || ['Recoupe',''];
+  document.getElementById('topbar-title').textContent = t[0];
+  document.getElementById('topbar-sub').textContent = t[1];
+}
+document.querySelectorAll('[data-view]').forEach(function(el){
+  el.addEventListener('click', function(){ showView(el.dataset.view); });
+});
+</script>
+
+</body>
+</html>
