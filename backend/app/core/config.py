@@ -20,6 +20,17 @@ class Settings(BaseSettings):
     payment_link_base_url: str = "https://rzp.io/i/recovery-demo"
     risk_max_retries: int = 3
     risk_cooldown_hours: int = 24
+    risk_max_calls_7d: int = 1
+    renewal_ltv_call_threshold: float = 50000.0
+    opencode_api_key: str | None = None
+    opencode_base_url: str = "https://opencode.ai/zen/go"
+    groq_api_key: str | None = None
+    model_name: str = "deepseek-v4-flash"
+    test_model_name: str = "deepseek-v4-flash"
+    llm_enabled: bool = False
+    llm_max_tokens: int = 256
+    twilio_voice_from: str | None = None
+    twilio_voice_twiml_url: str | None = None
 
     model_config = SettingsConfigDict(
         env_file=BACKEND_DIR / ".env",

@@ -17,3 +17,5 @@ class SubAgentResponse(BaseModel):
     gate_reason: str | None = None
     stage_trace: list[str] = Field(default_factory=list)
     delivery_status: str | None = None
+    feedback_prompt_sent: bool | None = None
+    feedback_reason: str | None = None

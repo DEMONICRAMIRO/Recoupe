@@ -39,22 +39,7 @@ flowchart TD
 | Audit Log | Deterministic code (Postgres/Supabase) | Records every action taken, with reasoning, for the demo dashboard and judge review |
 | Comms Layer | Deterministic code (Twilio + SMTP) | Shared functions `send_email()`, `send_sms()`, `send_whatsapp()`, `place_voice_call()` — every agent calls into this, none implement their own messaging |
 
-### Template Convention
-
-Message templates are organized one file per scenario, with one `MessageTemplate` constant per supported channel variant. The shared `render()` loader fills placeholders and raises `KeyError` for missing values. Rendering happens in an agent's Execute step; Comms Layer senders receive already-rendered content and remain domain-agnostic.
-
-```python
-@dataclass
-class MessageTemplate:
-    channel: str
-    subject: str | None
-    body: str
-
-def render(template: MessageTemplate, **kwargs) -> MessageTemplate:
-    rendered_body = template.body.format(**kwargs)
-    rendered_subject = template.subject.format(**kwargs) if template.subject else None
-    return MessageTemplate(channel=template.channel, subject=rendered_subject, body=rendered_body)
-```
+**⚠️ Provider status (as of Phase 2):** business-initiated WhatsApp delivery is currently **blocked** on the Twilio account in use — the `send_whatsapp()` function is fully implemented and tested, but live delivery does not go through. Every agent's "WhatsApp" channel currently falls back to `send_sms()` in practice. Do not spend Phase 3 time re-investigating this — build Cart and Renewal against SMS as the working channel, and treat WhatsApp delivery as a stretch fix only if time remains in Phase 5/6. Update this note the moment the block clears.
 
 ## 4. Sub-Agent Internal Pipeline (generic pattern)
 
@@ -80,10 +65,12 @@ flowchart TD
 
 | Sub-agent | Enrich pulls | Diagnose logic | Gate checks | Decide options | Channels used |
 |---|---|---|---|---|---|
-| Payment | Past retries, method reliability | Rules map decline code → cause; LLM adds nuance if code is ambiguous | Max retries, cooldown window | Retry now / retry alt route / send payment link | SMS, WhatsApp |
-| Cart | Purchase history, price sensitivity | LLM scores likely reason (price, timeout, distraction) — no clean signal exists | Contact frequency cap | Nudge (+ discount if price-related) → collect feedback → optional voice call if unresolved | WhatsApp (with discount), Email, feedback quick-reply, Hinglish voice call |
-| Renewal | Tenure, past failures, LTV | Rules classify card-expiry vs funds vs processor error | Grace period rules, retry limit, separate call-frequency cap | Silent retry / prompt card update / grace period, multi-channel notify, escalate to voice call if high-value or unresponsive | SMS + Email + WhatsApp simultaneously, Hinglish voice call |
-| Invoice | Account reliability, tier, past promises | Rules bucket by days overdue (30/60/90) | Contact rules, escalation limits | Reminder / firm follow-up / escalate, with a call-priority score deciding who gets called | SMS, WhatsApp, Email, Hinglish voice call (priority-scored) |
+| Payment | Past retries, method reliability | Rules map decline code → cause; LLM adds nuance if code is ambiguous | Max retries, cooldown window | Retry now / retry alt route / send payment link | SMS, WhatsApp* |
+| Cart | Purchase history, price sensitivity | LLM scores likely reason (price, timeout, distraction) — no clean signal exists | Contact frequency cap | Nudge (+ discount if price-related) → collect feedback → optional voice call if unresolved | WhatsApp* (with discount), Email, feedback quick-reply, Hinglish voice call |
+| Renewal | Tenure, past failures, LTV | Rules classify card-expiry vs funds vs processor error | Grace period rules, retry limit, separate call-frequency cap | Silent retry / prompt card update / grace period, multi-channel notify, escalate to voice call if high-value or unresponsive | SMS + Email + WhatsApp* simultaneously, Hinglish voice call |
+| Invoice | Account reliability, tier, past promises | Rules bucket by days overdue (30/60/90) | Contact rules, escalation limits | Reminder / firm follow-up / escalate, with a call-priority score deciding who gets called | SMS, WhatsApp*, Email, Hinglish voice call (priority-scored) |
+
+*WhatsApp is currently falling back to SMS — see the provider status note under Section 3, Comms Layer.
 
 ## 6. Internal Event Schema
 
@@ -119,7 +106,7 @@ Event {
 |---|---|---|
 | Backend | FastAPI (Python) | Already used in Intra, async-friendly for ingestion |
 | Orchestration | LangGraph | Same primitive as Intra's six-node graph, proven pattern |
-| LLM inference | Groq / OpenRouter (cloud) | Local 8GB VRAM ceiling (14B) insufficient for reliable live-demo reasoning |
+| LLM inference | Groq (`https://api.groq.com/openai/v1/chat/completions`, model `openai/gpt-oss-120b` via `llm_client.py`) | OpenCode Go gateway hit its usage limit mid-Phase 3; switched to Groq with a confirmed-live GPT OSS 120B model (131k context, tools + structured output support). Endpoint and model ID verified against Groq's live `/v1/models` API before wiring — not assumed from memory. |
 | Database | Supabase/Postgres | Already used in Intra, gives relational tables + instant REST |
 | Frontend | React + Vite + TypeScript | Already used in Intra, dark terminal aesthetic reusable |
 | Synthetic data | Python `faker` | Realistic fake data with minimal code |

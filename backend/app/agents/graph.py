@@ -23,10 +23,38 @@ def payment_route_node(state: PipelineState) -> dict:
     return {**result, "response": legacy_response, "payment_result": result["response"]}
 
 
+def cart_route_node(state: PipelineState) -> dict:
+    result = cart_agent(state)
+    event = state["event"]
+    legacy_response = SubAgentResponse(
+        agent="cart_agent",
+        event_id=event.event_id,
+        event_type=event.event_type.value,
+        action=PLACEHOLDER_ACTION,
+        reasoning=STUB_REASONING,
+        status=STUB_STATUS,
+    )
+    return {**result, "response": legacy_response, "cart_result": result["response"]}
+
+
+def renewal_route_node(state: PipelineState) -> dict:
+    result = renewal_agent(state)
+    event = state["event"]
+    legacy_response = SubAgentResponse(
+        agent="renewal_agent",
+        event_id=event.event_id,
+        event_type=event.event_type.value,
+        action=PLACEHOLDER_ACTION,
+        reasoning=STUB_REASONING,
+        status=STUB_STATUS,
+    )
+    return {**result, "response": legacy_response, "renewal_result": result["response"]}
+
+
 NODE_FUNCTIONS = {
     "payment_agent": payment_route_node,
-    "cart_agent": cart_agent,
-    "renewal_agent": renewal_agent,
+    "cart_agent": cart_route_node,
+    "renewal_agent": renewal_route_node,
     "invoice_agent": invoice_agent,
 }
 

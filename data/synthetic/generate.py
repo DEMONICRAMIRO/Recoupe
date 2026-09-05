@@ -86,6 +86,9 @@ def make_cart_event(customer: dict, start: datetime, end: datetime) -> dict:
             "cart_items": random.randint(1, 6),
             "device": random.choice(DEVICES),
             "session_duration_sec": random.randint(30, 1800),
+            "purchase_history_count": random.randint(0, 12),
+            "avg_order_value": round(random.uniform(200, 5000), 2),
+            "price_sensitivity": random.choice(["low", "medium", "high"]),
         },
     }
 
@@ -104,6 +107,8 @@ def make_renewal_event(customer: dict, start: datetime, end: datetime) -> dict:
             "subscription_id": f"sub_{uuid.uuid4().hex[:10]}",
             "plan": random.choice(PLANS),
             "attempt": random.randint(1, 3),
+            "tenure_months": random.randint(1, 60),
+            "ltv_amount": round(random.uniform(500, 200000), 2),
         },
     }
 

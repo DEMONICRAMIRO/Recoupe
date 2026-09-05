@@ -2,7 +2,7 @@ from twilio.rest import Client
 
 from app.core.config import settings
 from app.services.comms import SendResult
-from app.services.comms.sms import SUCCESS_STATUSES
+from app.services.comms.sms import SUCCESS_STATUSES, send_sms
 
 
 def _whatsapp_address(value: str) -> str:
@@ -17,7 +17,7 @@ def send_whatsapp(to: str, body: str) -> SendResult:
     }
     missing = [name for name, value in required.items() if not value]
     if missing:
-        raise RuntimeError(f"Missing Twilio WhatsApp configuration: {', '.join(missing)}")
+        return _fallback(to, body, f"Missing Twilio WhatsApp configuration: {', '.join(missing)}")
     if not to:
         raise ValueError("WhatsApp recipient is required")
 
@@ -28,17 +28,24 @@ def send_whatsapp(to: str, body: str) -> SendResult:
             to=_whatsapp_address(to),
         )
         status = message.status or "unknown"
-        return SendResult(
-            success=status in SUCCESS_STATUSES,
-            provider="twilio_whatsapp",
-            provider_id=message.sid,
-            status=status,
-        )
+        if status in SUCCESS_STATUSES:
+            return SendResult(
+                success=True,
+                provider="twilio_whatsapp",
+                provider_id=message.sid,
+                status=status,
+            )
+        return _fallback(to, body, f"WhatsApp returned non-success status {status!r}")
     except Exception as exc:
-        return SendResult(
-            success=False,
-            provider="twilio_whatsapp",
-            provider_id=None,
-            status="failed",
-            error=str(exc),
-        )
+        return _fallback(to, body, str(exc))
+
+
+def _fallback(to: str, body: str, whatsapp_error: str) -> SendResult:
+    sms_result = send_sms(to, body)
+    return SendResult(
+        success=sms_result.success,
+        provider=sms_result.provider,
+        provider_id=sms_result.provider_id,
+        status=f"{sms_result.status}_whatsapp_fallback",
+        error=f"WhatsApp unavailable ({whatsapp_error}); fell back to SMS",
+    )

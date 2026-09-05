@@ -19,6 +19,8 @@ class PipelineState(TypedDict, total=False):
     routed_to: str
     response: SubAgentResponse
     payment_result: SubAgentResponse
+    cart_result: SubAgentResponse
+    renewal_result: SubAgentResponse
     audit_log_id: int
 
 

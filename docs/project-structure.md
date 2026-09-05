@@ -38,8 +38,9 @@ Recoupe/
 │   │       └── comms/                 # shared communication layer (architecture.md §3)
 │   │           ├── email.py           # SMTP sender
 │   │           ├── sms.py             # Twilio SMS sender
-│   │           ├── whatsapp.py        # Twilio WhatsApp sandbox sender
+│   │           ├── whatsapp.py        # Twilio WhatsApp sandbox sender (falls back to SMS)
 │   │           ├── voice.py           # Twilio Voice + Hinglish TTS call placer
+│   │           ├── feedback.py        # structured quick-reply collector (Phase 3)
 │   │           └── templates/         # message templates per agent/scenario
 │   ├── tests/
 │   │   ├── test_phase1.py
