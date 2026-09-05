@@ -21,6 +21,7 @@ class PipelineState(TypedDict, total=False):
     payment_result: SubAgentResponse
     cart_result: SubAgentResponse
     renewal_result: SubAgentResponse
+    invoice_result: SubAgentResponse
     audit_log_id: int
 
 

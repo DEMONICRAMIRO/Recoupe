@@ -86,3 +86,38 @@ def evaluate_call(call_info: Any = None, now: datetime | None = None) -> GateDec
             )
 
     return GateDecision(allowed=True, reason="allowed: call-frequency bounds satisfied")
+
+
+def evaluate_invoice_gate(invoice_info: Any = None, now: datetime | None = None) -> GateDecision:
+    """Invoice-specific escalation gate — independent counter from Payment/Renewal/Cart caps.
+
+    Tracks how many times a customer has been escalated (contacted) about invoices in
+    the past 30 days, and enforces a per-customer cooldown between invoice contacts.
+    A blocked invoice action must never affect Payment/Renewal/Cart gate decisions.
+    """
+    escalation_count = int(_value(invoice_info, "invoice_escalation_count_30d", 0) or 0)
+    if escalation_count >= settings.invoice_max_escalations_30d:
+        return GateDecision(
+            allowed=False,
+            reason=(
+                f"blocked: invoice_escalation_count_30d={escalation_count} reaches the "
+                f"maximum of {settings.invoice_max_escalations_30d} (30-day window)"
+            ),
+        )
+
+    last_invoice_contact = _value(invoice_info, "last_invoice_contact_at")
+    if last_invoice_contact is not None:
+        current_time = _as_utc(now or datetime.now(timezone.utc))
+        elapsed = current_time - _as_utc(last_invoice_contact)
+        cooldown = timedelta(hours=settings.invoice_contact_cooldown_hours)
+        if elapsed < cooldown:
+            remaining = cooldown - elapsed
+            return GateDecision(
+                allowed=False,
+                reason=(
+                    "blocked: invoice contact cooldown is active; "
+                    f"approximately {remaining.total_seconds() / 3600:.1f} hours remain"
+                ),
+            )
+
+    return GateDecision(allowed=True, reason="allowed: invoice escalation bounds satisfied")

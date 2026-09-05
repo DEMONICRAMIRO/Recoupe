@@ -2,7 +2,7 @@ from langgraph.graph import END, START, StateGraph
 from sqlalchemy.orm import Session
 
 from app.agents.cart_agent import cart_agent
-from app.agents.invoice_agent import invoice_agent
+from app.agents.invoice_agent import invoice_agent, run_invoice_event
 from app.agents.orchestrator import PipelineState, classify, route_to_agent
 from app.agents.payment_agent import payment_agent
 from app.agents.renewal_agent import renewal_agent
@@ -51,11 +51,25 @@ def renewal_route_node(state: PipelineState) -> dict:
     return {**result, "response": legacy_response, "renewal_result": result["response"]}
 
 
+def invoice_route_node(state: PipelineState) -> dict:
+    result = invoice_agent(state)
+    event = state["event"]
+    legacy_response = SubAgentResponse(
+        agent="invoice_agent",
+        event_id=event.event_id,
+        event_type=event.event_type.value,
+        action=PLACEHOLDER_ACTION,
+        reasoning=STUB_REASONING,
+        status=STUB_STATUS,
+    )
+    return {**result, "response": legacy_response, "invoice_result": result["response"]}
+
+
 NODE_FUNCTIONS = {
     "payment_agent": payment_route_node,
     "cart_agent": cart_route_node,
     "renewal_agent": renewal_route_node,
-    "invoice_agent": invoice_agent,
+    "invoice_agent": invoice_route_node,
 }
 
 

@@ -113,9 +113,15 @@ def make_renewal_event(customer: dict, start: datetime, end: datetime) -> dict:
     }
 
 
+ACCOUNT_RELIABILITIES = ["good", "fair", "poor"]
+
+
 def make_invoice_event(customer: dict, start: datetime, end: datetime, seq: int) -> dict:
     days_overdue = random.randint(1, 120)
     due_date = (end - timedelta(days=days_overdue)).date().isoformat()
+    reliability = random.choice(ACCOUNT_RELIABILITIES)
+    # Broken promises are more common with poor/fair reliability
+    broken_promise = random.random() < (0.7 if reliability == "poor" else 0.3 if reliability == "fair" else 0.05)
     return {
         "event_id": f"evt_{uuid.uuid4().hex[:12]}",
         "event_type": EventType.invoice_overdue.value,
@@ -130,8 +136,13 @@ def make_invoice_event(customer: dict, start: datetime, end: datetime, seq: int)
             "due_date": due_date,
             "days_overdue": days_overdue,
             "account_tier": random.choice(TIERS),
+            "account_reliability": reliability,
+            "broken_promise": broken_promise,
+            "phone": "+919631581658",  # Twilio-verified test number for real dispatch
+            "email": "arjunkumarsingh166@gmail.com",  # real SMTP test recipient
         },
     }
+
 
 
 def build_history(customers: list[dict], events: list[Event]) -> list[dict]:

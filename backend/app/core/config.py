@@ -28,9 +28,12 @@ class Settings(BaseSettings):
     model_name: str = "deepseek-v4-flash"
     test_model_name: str = "deepseek-v4-flash"
     llm_enabled: bool = False
-    llm_max_tokens: int = 256
+    llm_max_tokens: int = 2048
     twilio_voice_from: str | None = None
     twilio_voice_twiml_url: str | None = None
+    # Invoice Agent gate — independent counters, not shared with Payment/Renewal/Cart
+    invoice_max_escalations_30d: int = 2
+    invoice_contact_cooldown_hours: int = 48
 
     model_config = SettingsConfigDict(
         env_file=BACKEND_DIR / ".env",

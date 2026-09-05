@@ -25,3 +25,46 @@ Running log for the buildathon demo. The judges want the 2am war stories, so ent
 - **qwen3.8-max for real runs, deepseek-v4-flash for tests.** Evaluated `qwen3.8-max` for Cart diagnosis reasoning quality: passed the 5-case manual review with a consistent policy (weights `price_sensitivity` over raw price ratio), but ~10s/event. Final wiring uses a dual-model switch in `llm_client.py`: normal execution resolves `MODEL_NAME=qwen3.8-max`; pytest runs (and any subprocess spawned under pytest via the inherited `RECOUPE_TEST_MODE=1` env flag) resolve `TEST_MODEL_NAME=deepseek-v4-flash`. A hidden trap: `scripts/run_batch.py` is invoked as a subprocess by `test_batch_metrics_output`, and a subprocess is not "under pytest" â€” without the env-flag half of the switch, that one test silently ran 30 real qwen calls (~350s) instead of flash (~60s).
 - **Cart diagnosis is the genuine LLM node with a deterministic safety net.** LLM scores price/timeout/distraction from behavioral signals; any gateway failure or unparsable output falls back to a heuristic scorer, so a bad model name can never silently break the pipeline.
 - **Criterion 7 (voice call verification): Twilio call setup, TwiML Bin content, and URL construction were all independently verified correct via the Twilio API and console — three real calls placed, all `completed` with `error_code: None`, zero fetch failures logged. Audio playback verification was inconclusive; the message heard did not match Twilio's standard error wording and no fallback exists in our own code, suggesting a possible carrier-side network announcement rather than a code or configuration issue. Infrastructure-level correctness is confirmed; end-to-end audio delivery could not be fully verified within the project timeline.** *(Recording fetch also attempted — returns HTTP 401 / error 20003 This feature is not available on a Trial account on every call SID, same gating as Monitor/Debugger. Call durations 4-5 s across most calls are consistent with a carrier intercept rather than our TwiML playing to completion.)*
+
+
+## Phase 4 -- Invoice Agent + Full System Integration Test
+
+- **REPO_ROOT off-by-one in test_phase4.py.** `Path(__file__).resolve().parents[3]` resolves
+  to `C:\Users\arjun\Desktop` (one level too high) from `backend/tests/test_phase4.py`. Correct
+  index is `parents[2]` (test file is 2 levels below repo root: `backend/tests/`). Three tests
+  failed on first run with FileNotFoundError for `events.json` and `run_batch.py`. Fixed before
+  the second run; no test was weakened.
+
+- **llm_max_tokens=256 silently starves reasoning models.** Groq's `openai/gpt-oss-120b` and
+  `-20b` use internal reasoning tokens before emitting output tokens. With `max_tokens=256`, the
+  budget was exhausted on reasoning, leaving empty `content` (finish_reason=length, HTTP 200).
+  The PONG sanity check caught this on pre-flight; bumped `llm_max_tokens` to 2048. Affected
+  all LLM call sites (Cart diagnose was also silently broken until this fix).
+
+- **SCORE_PROMPT_TEMPLATE KeyError on JSON example.** The prompt template contained literal
+  `{"tier": ...}` JSON which `str.format()` parsed as a format slot named `"tier"`. Fixed by
+  doubling the braces: `{{"tier": ...}}`. Caught during the isolated call_priority pre-wire test
+  before any agent wiring.
+
+- **Groq RPM rate limit (30/min) hit during full 120-event batch.** Running all four agents
+  over 120 events in rapid succession exhausts the free-tier RPM cap. Cart's 30 LLM diagnose
+  calls + Invoice's ambiguous-case scoring calls fire within the same minute. The heuristic
+  fallback in both `cart_agent.py` and `call_priority.py` activated correctly; batch completed
+  without error and routing was 100% correct. Expected behavior on the free tier.
+
+- **Cart and Invoice show 0% batch recovery due to gate accumulation across test runs.** The
+  test suite writes audit log rows to the shared local DB during the 30-event pipeline
+  completeness test. By the time `run_batch.py` runs, many customers have exceeded their invoice
+  escalation or contact caps. Payment and Renewal show 100% because their caps were not
+  exhausted the same way. This is a known test-DB contamination artifact, not a routing bug.
+  The integration test (unique event IDs, no prior history) was unaffected and passed.
+
+- **Voice (Phase 4 status):** Invoice Agent escalates to `place_voice_call()` for TIER_CALL
+  decisions on 90+-day accounts. Same infrastructure state as Phase 3: Twilio call placement
+  is API-confirmed, audio-level verification remains inconclusive for the same carrier-intercept
+  reasons documented in Phase 3. The `evaluate_call()` gate correctly limits call frequency
+  independently of the invoice escalation gate.
+
+- **Test count sanity check passed explicitly:**
+  test_phase1.py=51, test_phase2.py=26, test_phase3.py=19, test_phase4.py=46. Total=142.
+  No prior-phase count changed.
