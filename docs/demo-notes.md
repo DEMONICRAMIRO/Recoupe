@@ -68,3 +68,63 @@ Running log for the buildathon demo. The judges want the 2am war stories, so ent
 - **Test count sanity check passed explicitly:**
   test_phase1.py=51, test_phase2.py=26, test_phase3.py=19, test_phase4.py=46. Total=142.
   No prior-phase count changed.
+
+---
+
+## Phase 5 — Real Razorpay Adapter + Dashboard + Live Run
+
+**Commit:** 165f516  
+**Date:** 2026-09-05
+
+### What was built
+
+- **ackend/app/adapters/razorpay_adapter.py** — Full Razorpay webhook adapter.
+  - erify_webhook_signature(): HMAC-SHA256 on raw bytes BEFORE JSON parse.
+  - 	ranslate_payment_failed(): paise÷100 conversion, customer_id fallback chain
+    (customer_id ? contact ? email ? order_id ? payment_id).
+  - 	ranslate_to_event(): Routes payment.failed; silently ignores other types.
+
+- **ackend/app/core/live_status.py** — Thread-safe in-memory pipeline state store.
+  - update_live_status(event_id, stage, ...) called by each agent at stage start.
+  - get_live_status() returns active or last-completed batch for dashboard polling.
+  - All 24 calls across 4 agents guarded: if (_ev := state.get("event")) is not None:
+    so Phase 2/3 unit tests calling stage functions with partial state still pass.
+
+- **Dashboard backend (7 endpoints):**
+  - POST /events/razorpay-webhook — HMAC-verified real webhook ingest.
+  - POST /events/run-batch — Triggers run_batch.py subprocess for Live run view.
+  - GET /live-status/ — 1.5s polling endpoint for the Live run view.
+  - GET /metrics/summary — Real DB: recovered amount, recovery rate, per-agent breakdown.
+  - GET /audit/entries — Filtered (recovered|blocked|pending|sent) + customer_id scoping.
+  - GET /customers/ + GET /customers/{id} — Real customer_history + joined audit rows.
+  - GET /gate-rules/ — Deterministic gate constants from settings.
+  - GET /comms/status — Honest channel status (WhatsApp: "blocked", Voice: "partial").
+
+- **Frontend (rontend/) — Vite + React + TypeScript, 10 views:**
+  - Dashboard (hero stats + agent performance cards)
+  - Audit log (4 status filter tabs, live filter)
+  - Customers (reliability, contacts, recovered amount)
+  - Live run (1.5s poll, six-dot stage animation, ? Run batch button)
+  - Payment / Cart / Renewal / Invoice agent detail (6-stage pipeline flow, decisions table)
+  - Gate rules (4 agent cards, all values real from settings)
+  - Comms channels (WhatsApp card shows "Sender built, delivery blocked" — not "live")
+  - Zero hardcoded arrays — every view calls a real API endpoint.
+
+### Comms status (unchanged from Phase 3/4)
+- Email: ? LIVE
+- SMS: ? LIVE (Twilio test-mode, verified number)
+- WhatsApp: ?? BUILT, delivery BLOCKED on this account. Falls back to SMS.
+- Voice: ?? Infrastructure confirmed (API 200, TwiML configured), audio inconclusive.
+
+### Test counts
+- test_phase1.py: 51 ?
+- test_phase2.py: 26 ? (regressions from live_status guard fixed)
+- test_phase3.py: 19 ?
+- test_phase4.py: 46 ? (run_batch regression from get_llm import fix)
+- test_phase5.py: 38 ? (8 criteria: adapter, webhook e2e, metrics, audit filters,
+                         live mid-pipeline, dashboard parity, comms honesty, count sanity)
+- **Total: 180 tests, 0 failures.**
+
+### Servers
+- Backend: cd backend; uvicorn app.main:app --reload ? http://localhost:8000
+- Frontend: cd frontend; npm run dev ? http://localhost:5173
