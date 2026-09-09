@@ -727,7 +727,7 @@ class TestFullSuiteSanity:
                     f"(delta {actual - expected:+d}) — investigate before merging"
                 )
             else:
-                print(f"  ✓ {filename}: {actual} tests (matches expected {expected})")
+                print(f"  OK {filename}: {actual} tests (matches expected {expected})")
 
         assert not issues, (
             "Test count sanity check FAILED:\n" + "\n".join(f"  {i}" for i in issues)

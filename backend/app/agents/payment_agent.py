@@ -146,8 +146,12 @@ def _ambiguous_diagnosis(event: Event, history: CustomerHistoryRow | None) -> Pa
             "Assess this ambiguous payment failure conservatively. "
             f"Reason code={event.reason_code!r}; past_failures={history_count}."
         )
-        answer = model.invoke(prompt)
-        nuance = getattr(answer, "content", str(answer))
+        try:
+            answer = model.invoke(prompt)
+            nuance = getattr(answer, "content", str(answer))
+        except Exception as exc:
+            logger.info("Payment diagnosis LLM unavailable, using heuristic: %s", exc)
+            nuance = None
 
     if nuance:
         reasoning = f"Ambiguous signal; LLM nuance: {nuance}"

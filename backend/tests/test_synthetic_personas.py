@@ -182,8 +182,12 @@ def _seed_history(db, customer_id: str) -> None:
 
     lca_str = raw.get("last_contacted_at")
     lca = datetime.fromisoformat(lca_str) if lca_str else None
-    if lca is not None and lca.tzinfo is None:
-        lca = lca.replace(tzinfo=timezone.utc)
+    if lca is not None:
+        if lca.tzinfo is None:
+            lca = lca.replace(tzinfo=timezone.utc)
+        # Shift static timestamp relative to current time so cooldown logic doesn't age out
+        baseline = datetime(2026, 9, 5, 15, 21, 29, tzinfo=timezone.utc)
+        lca = lca + (datetime.now(timezone.utc) - baseline)
 
     existing = db.get(CustomerHistoryRow, customer_id)
     if existing is not None:

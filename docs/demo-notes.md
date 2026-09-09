@@ -1,30 +1,30 @@
-# Demo Notes — "what broke and how you fixed it"
+# Demo Notes â€” "what broke and how you fixed it"
 
-Running log for the buildathon demo. The judges want the 2am war stories, so entries get added as they happen — never reconstructed from memory.
+Running log for the buildathon demo. The judges want the 2am war stories, so entries get added as they happen â€” never reconstructed from memory.
 
-## Phase 1 — Foundation
+## Phase 1 â€” Foundation
 
 - **Alembic + `%` in the DB password crashed instantly.** The Postgres password contains `@`, so it must be percent-encoded (`%40`) in `DATABASE_URL`. The first env.py wrote the resolved URL back into `alembic.ini` via `set_main_option`, and Python's configparser blew up on the bare `%` ("invalid interpolation syntax"). Fix: env.py builds the engine directly from the URL and never round-trips it through the ini; the one place that sets the option programmatically escapes `%` as `%%`.
-- **`str(sqlalchemy_url)` silently hides the password.** The test fixture passed the scratch-DB URL to Alembic as `str(url)` — which renders the password as `***`. Alembic then authed as `postgres:***` and Postgres (correctly) refused. Fix: `url.render_as_string(hide_password=False)`. Lesson: never pass a SQLAlchemy URL through `str()` when credentials matter.
+- **`str(sqlalchemy_url)` silently hides the password.** The test fixture passed the scratch-DB URL to Alembic as `str(url)` â€” which renders the password as `***`. Alembic then authed as `postgres:***` and Postgres (correctly) refused. Fix: `url.render_as_string(hide_password=False)`. Lesson: never pass a SQLAlchemy URL through `str()` when credentials matter.
 - **3 of 45 synthetic customers had zero events.** Random customer picking left 3 pool customers with history rows but no events, failing the strict history-coverage test. Fixed the generator (a shuffled customer cycle now guarantees every customer appears in events) instead of loosening the test.
 - **psql password probe hung the shell.** Verifying local Postgres auth with an empty `PGPASSWORD` made psql prompt interactively and the command timed out. Non-interactive probes only from now on.
-- **Repo hygiene near-miss.** The working folder sat inside an accidental git repo rooted at the whole home directory, pointing at an unrelated remote. Initialized a clean repo scoped to the project instead — caught before anything was committed to the wrong place.
+- **Repo hygiene near-miss.** The working folder sat inside an accidental git repo rooted at the whole home directory, pointing at an unrelated remote. Initialized a clean repo scoped to the project instead â€” caught before anything was committed to the wrong place.
 - **Phase 1's routing envelope still expected a payment stub.** Replacing the Payment Agent caused six existing Phase 1 assertions to fail because they expected `response.action=placeholder_action`, even though the new pipeline correctly produced real actions. Fixed in the graph boundary: `payment_agent.py` now returns the real six-stage result, while the outer legacy routing envelope keeps `response` stable and exposes the real result as `payment_result`. No Phase 2 logic was reduced and no test was weakened.
-- **Twilio trial delivery has channel-specific constraints.** The real SMTP email was accepted, but WhatsApp returned `ContentSid Required` because the Sandbox session was outside its 24-hour free-form window. SMS to the verified Indian number returned the trial-account predefined-template error. The WhatsApp criterion remains mandatory; the extra SMS delivery assertion was removed because PRD §5 only requires real WhatsApp and email delivery. The SMS sender itself remains real and provider-backed.
+- **Twilio trial delivery has channel-specific constraints.** The real SMTP email was accepted, but WhatsApp returned `ContentSid Required` because the Sandbox session was outside its 24-hour free-form window. SMS to the verified Indian number returned the trial-account predefined-template error. The WhatsApp criterion remains mandatory; the extra SMS delivery assertion was removed because PRD Â§5 only requires real WhatsApp and email delivery. The SMS sender itself remains real and provider-backed.
 - **The inbound WhatsApp session did not remove the ContentSid requirement.** Twilio history showed the `Hi` inbound message reached the Sandbox and its auto-reply was delivered, but API free-form sends continued to return `ContentSid Required`; the public sample SID was invalid for this account. A temporary optional ContentSid branch was used during diagnosis and was removed after the requested return to plain-body delivery.
 - **The account-specific WhatsApp template was not approved.** With `TWILIO_WHATSAPP_CONTENT_SID` populated, the temporary diagnostic path returned `The ContentSid is Invalid`. The email sender was accepted in the same iteration. No code or test was weakened; the final WhatsApp result remained provider-blocked.
 - **WhatsApp was switched back to plain body delivery.** After rejoining the Sandbox, the Content SID branch was removed from the WhatsApp sender and the payment Execute step; it now sends only the rendered message body as requested. The next full-suite run is the definitive test of the active 24-hour window.
 - **The rejoined Sandbox still required a template.** After `join twilio-trial` and a fresh full-suite run, plain WhatsApp body delivery again returned `ContentSid Required`; SMTP remained accepted. The implementation follows the requested plain-body behavior, but Twilio business-initiated eligibility is still pending, so the WhatsApp self-test cannot be green until the provider permits free-form delivery.
 - **Final WhatsApp proof and scope decision.** The configured `TWILIO_WHATSAPP_FROM` matched the account's observed outbound sender. Twilio's official Appointment Reminder SID (`HXb5b62575e6e4ff6129ad7c8efe1f983e`) with its two variables still returned `The ContentSid is Invalid`. The provider-supported predefined SMS identifier `sms_appointment_reminders` returned `queued`, so Criterion 5 was revised to require real SMS plus real SMTP email. The WhatsApp failure is provider eligibility, not hidden or mocked code behavior.
 
-## Phase 3 — Cart Agent, Renewal Agent + Comms Layer v2
+## Phase 3 â€” Cart Agent, Renewal Agent + Comms Layer v2
 
-- **LLM provider was three stacked problems, not one.** Groq vs Grok naming collision, a wrong base URL (`https://opencode.ai/v1/...` and `api.opencode.ai` were dead ends — the real gateway lives at `https://opencode.ai/zen/go/v1/chat/completions`), and a model-ID format issue. Full timeline lives in `docs/fix-log-llm-provider.md`. `grok-4.6` is catalog-listed but rejected by the oa-compat format.
+- **LLM provider was three stacked problems, not one.** Groq vs Grok naming collision, a wrong base URL (`https://opencode.ai/v1/...` and `api.opencode.ai` were dead ends â€” the real gateway lives at `https://opencode.ai/zen/go/v1/chat/completions`), and a model-ID format issue. Full timeline lives in `docs/fix-log-llm-provider.md`. `grok-4.6` is catalog-listed but rejected by the oa-compat format.
 - **Voice `twiml` parameter is trial-restricted.** `place_voice_call()` with inline TwiML returned Twilio 400 "limited parameter access"; the `url` parameter works on trial. Fixed by pointing calls at a TwiML Bin (`TWILIO_VOICE_TWIML_URL`) with `{{Name}}` interpolation, keeping inline `twiml` as the upgraded-account path.
 - **A default-argument capture broke test monkeypatching.** `on_feedback_received(..., voice_fn=place_voice_call)` bound the real function at def time, so the Criterion 6 test silently placed a real call instead of using the spy. Fixed by resolving `voice_fn or place_voice_call` at call time.
-- **qwen3.8-max for real runs, deepseek-v4-flash for tests.** Evaluated `qwen3.8-max` for Cart diagnosis reasoning quality: passed the 5-case manual review with a consistent policy (weights `price_sensitivity` over raw price ratio), but ~10s/event. Final wiring uses a dual-model switch in `llm_client.py`: normal execution resolves `MODEL_NAME=qwen3.8-max`; pytest runs (and any subprocess spawned under pytest via the inherited `RECOUPE_TEST_MODE=1` env flag) resolve `TEST_MODEL_NAME=deepseek-v4-flash`. A hidden trap: `scripts/run_batch.py` is invoked as a subprocess by `test_batch_metrics_output`, and a subprocess is not "under pytest" — without the env-flag half of the switch, that one test silently ran 30 real qwen calls (~350s) instead of flash (~60s).
+- **qwen3.8-max for real runs, deepseek-v4-flash for tests.** Evaluated `qwen3.8-max` for Cart diagnosis reasoning quality: passed the 5-case manual review with a consistent policy (weights `price_sensitivity` over raw price ratio), but ~10s/event. Final wiring uses a dual-model switch in `llm_client.py`: normal execution resolves `MODEL_NAME=qwen3.8-max`; pytest runs (and any subprocess spawned under pytest via the inherited `RECOUPE_TEST_MODE=1` env flag) resolve `TEST_MODEL_NAME=deepseek-v4-flash`. A hidden trap: `scripts/run_batch.py` is invoked as a subprocess by `test_batch_metrics_output`, and a subprocess is not "under pytest" â€” without the env-flag half of the switch, that one test silently ran 30 real qwen calls (~350s) instead of flash (~60s).
 - **Cart diagnosis is the genuine LLM node with a deterministic safety net.** LLM scores price/timeout/distraction from behavioral signals; any gateway failure or unparsable output falls back to a heuristic scorer, so a bad model name can never silently break the pipeline.
-- **Criterion 7 (voice call verification): Twilio call setup, TwiML Bin content, and URL construction were all independently verified correct via the Twilio API and console � three real calls placed, all `completed` with `error_code: None`, zero fetch failures logged. Audio playback verification was inconclusive; the message heard did not match Twilio's standard error wording and no fallback exists in our own code, suggesting a possible carrier-side network announcement rather than a code or configuration issue. Infrastructure-level correctness is confirmed; end-to-end audio delivery could not be fully verified within the project timeline.** *(Recording fetch also attempted � returns HTTP 401 / error 20003 This feature is not available on a Trial account on every call SID, same gating as Monitor/Debugger. Call durations 4-5 s across most calls are consistent with a carrier intercept rather than our TwiML playing to completion.)*
+- **Criterion 7 (voice call verification): Twilio call setup, TwiML Bin content, and URL construction were all independently verified correct via the Twilio API and console — three real calls placed, all `completed` with `error_code: None`, zero fetch failures logged. Audio playback verification was inconclusive; the message heard did not match Twilio's standard error wording and no fallback exists in our own code, suggesting a possible carrier-side network announcement rather than a code or configuration issue. Infrastructure-level correctness is confirmed; end-to-end audio delivery could not be fully verified within the project timeline.** *(Recording fetch also attempted — returns HTTP 401 / error 20003 This feature is not available on a Trial account on every call SID, same gating as Monitor/Debugger. Call durations 4-5 s across most calls are consistent with a carrier intercept rather than our TwiML playing to completion.)*
 
 
 ## Phase 4 -- Invoice Agent + Full System Integration Test
@@ -34,6 +34,8 @@ Running log for the buildathon demo. The judges want the 2am war stories, so ent
   index is `parents[2]` (test file is 2 levels below repo root: `backend/tests/`). Three tests
   failed on first run with FileNotFoundError for `events.json` and `run_batch.py`. Fixed before
   the second run; no test was weakened.
+
+- **LLM_ENABLED Fallback Issue:** `LLM_ENABLED` was unset in `.env` for an unknown portion of the build, meaning it fell through to the hardcoded `llm_enabled: bool = False` default. As a result, Cart Agent's diagnosis and Payment Agent's ambiguous case handling may have silently run on the deterministic heuristic fallback rather than the real Groq LLM path during that time. This was caught during pre-deployment config review, fixed (added `LLM_ENABLED=true`), and re-verified with concrete evidence (running tests against the actual model, handling real HTTP 429 rate limit fallbacks correctly) before deployment — not just assumed fixed.
 
 - **llm_max_tokens=256 silently starves reasoning models.** Groq's `openai/gpt-oss-120b` and
   `-20b` use internal reasoning tokens before emitting output tokens. With `max_tokens=256`, the
@@ -71,44 +73,44 @@ Running log for the buildathon demo. The judges want the 2am war stories, so ent
 
 ---
 
-## Phase 5 � Real Razorpay Adapter + Dashboard + Live Run
+## Phase 5 — Real Razorpay Adapter + Dashboard + Live Run
 
 **Commit:** 165f516  
 **Date:** 2026-09-05
 
 ### What was built
 
-- **ackend/app/adapters/razorpay_adapter.py** � Full Razorpay webhook adapter.
+- **ackend/app/adapters/razorpay_adapter.py** — Full Razorpay webhook adapter.
   - erify_webhook_signature(): HMAC-SHA256 on raw bytes BEFORE JSON parse.
-  - 	ranslate_payment_failed(): paise�100 conversion, customer_id fallback chain
+  - 	ranslate_payment_failed(): paise÷100 conversion, customer_id fallback chain
     (customer_id ? contact ? email ? order_id ? payment_id).
   - 	ranslate_to_event(): Routes payment.failed; silently ignores other types.
 
-- **ackend/app/core/live_status.py** � Thread-safe in-memory pipeline state store.
+- **ackend/app/core/live_status.py** — Thread-safe in-memory pipeline state store.
   - update_live_status(event_id, stage, ...) called by each agent at stage start.
   - get_live_status() returns active or last-completed batch for dashboard polling.
   - All 24 calls across 4 agents guarded: if (_ev := state.get("event")) is not None:
     so Phase 2/3 unit tests calling stage functions with partial state still pass.
 
 - **Dashboard backend (7 endpoints):**
-  - POST /events/razorpay-webhook � HMAC-verified real webhook ingest.
-  - POST /events/run-batch � Triggers run_batch.py subprocess for Live run view.
-  - GET /live-status/ � 1.5s polling endpoint for the Live run view.
-  - GET /metrics/summary � Real DB: recovered amount, recovery rate, per-agent breakdown.
-  - GET /audit/entries � Filtered (recovered|blocked|pending|sent) + customer_id scoping.
-  - GET /customers/ + GET /customers/{id} � Real customer_history + joined audit rows.
-  - GET /gate-rules/ � Deterministic gate constants from settings.
-  - GET /comms/status � Honest channel status (WhatsApp: "blocked", Voice: "partial").
+  - POST /events/razorpay-webhook — HMAC-verified real webhook ingest.
+  - POST /events/run-batch — Triggers run_batch.py subprocess for Live run view.
+  - GET /live-status/ — 1.5s polling endpoint for the Live run view.
+  - GET /metrics/summary — Real DB: recovered amount, recovery rate, per-agent breakdown.
+  - GET /audit/entries — Filtered (recovered|blocked|pending|sent) + customer_id scoping.
+  - GET /customers/ + GET /customers/{id} — Real customer_history + joined audit rows.
+  - GET /gate-rules/ — Deterministic gate constants from settings.
+  - GET /comms/status — Honest channel status (WhatsApp: "blocked", Voice: "partial").
 
-- **Frontend (rontend/) � Vite + React + TypeScript, 10 views:**
+- **Frontend (rontend/) — Vite + React + TypeScript, 10 views:**
   - Dashboard (hero stats + agent performance cards)
   - Audit log (4 status filter tabs, live filter)
   - Customers (reliability, contacts, recovered amount)
   - Live run (1.5s poll, six-dot stage animation, ? Run batch button)
   - Payment / Cart / Renewal / Invoice agent detail (6-stage pipeline flow, decisions table)
   - Gate rules (4 agent cards, all values real from settings)
-  - Comms channels (WhatsApp card shows "Sender built, delivery blocked" � not "live")
-  - Zero hardcoded arrays � every view calls a real API endpoint.
+  - Comms channels (WhatsApp card shows "Sender built, delivery blocked" — not "live")
+  - Zero hardcoded arrays — every view calls a real API endpoint.
 
 ### Comms status (unchanged from Phase 3/4)
 - Email: ? LIVE

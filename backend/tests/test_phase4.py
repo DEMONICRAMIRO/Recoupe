@@ -693,7 +693,7 @@ def test_phase_test_counts_sanity():
                 f"({'DROPPED' if actual < expected else 'GREW'} by {abs(actual - expected)})"
             )
         else:
-            print(f"  {filename}: {actual} tests ✓")
+            print(f"  {filename}: {actual} tests OK")
 
     assert not count_issues, (
         "Test count sanity check FAILED:\n" + "\n".join(count_issues)

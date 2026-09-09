@@ -6,7 +6,7 @@ BACKEND_DIR = Path(__file__).resolve().parents[2]
 
 
 class Settings(BaseSettings):
-    database_url: str = "postgresql+psycopg://postgres:postgres@localhost:5432/revenue_recovery"
+    database_url: str
     app_name: str = "Revenue Recovery Agent"
     twilio_account_sid: str | None = None
     twilio_auth_token: str | None = None
@@ -25,9 +25,9 @@ class Settings(BaseSettings):
     opencode_api_key: str | None = None
     opencode_base_url: str = "https://opencode.ai/zen/go"
     groq_api_key: str | None = None
-    model_name: str = "deepseek-v4-flash"
-    test_model_name: str = "deepseek-v4-flash"
-    llm_enabled: bool = False
+    model_name: str = "openai/gpt-oss-120b"
+    test_model_name: str = "openai/gpt-oss-20b"
+    llm_enabled: bool = True
     llm_max_tokens: int = 2048
     twilio_voice_from: str | None = None
     twilio_voice_twiml_url: str | None = None
