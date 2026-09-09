@@ -246,6 +246,11 @@ def _execute_action(
             rendered.body,
             content_variables={"1": values["customer_name"], "2": values["amount"], "3": values["link"]},
         )
+    if not delivery.success:
+        logger.error(
+            "payment_agent: %s delivery failed for event %s: %s",
+            channel, event.event_id, delivery.error,
+        )
     return delivery, delivery.status
 
 
@@ -256,11 +261,13 @@ def _write_audit(
     gate: GateDecision,
     decision: PaymentDecision,
     delivery_status: str,
+    delivery_error: str | None = None,
 ) -> int:
     reasoning = (
         f"cause={diagnosis.cause}; diagnosis={diagnosis.reasoning}; "
         f"gate={gate.reason}; decision={decision.reasoning}; "
         f"delivery={delivery_status}"
+        + (f"({delivery_error})" if delivery_error else "")
     )
     row = db.execute(
         select(AuditLogRow)
@@ -299,6 +306,7 @@ def execute_and_log(state: PaymentPipelineState) -> dict:
         gate,
         decision,
         delivery_status,
+        delivery.error if delivery else None,
     )
     trace = _trace(state, "execute_log")
     response = SubAgentResponse(

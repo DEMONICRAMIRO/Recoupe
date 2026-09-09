@@ -263,6 +263,8 @@ def _dispatch_nudge(
 
     if phone:
         sms = send_sms(phone, render(sms_template, **values).body)
+        if not sms.success:
+            logger.error("cart_agent: sms delivery failed for event %s: %s", event.event_id, sms.error)
         deliveries.append({"channel": "sms", "result": sms.as_dict()})
         feedback_result = send_feedback_prompt(phone, customer_name)
     else:
@@ -271,11 +273,21 @@ def _dispatch_nudge(
     if email:
         rendered_email = render(email_template, **values)
         email_result = send_email(email, rendered_email.subject or "Recoupe", rendered_email.body)
+        if not email_result.success:
+            logger.error("cart_agent: email delivery failed for event %s: %s", event.event_id, email_result.error)
         deliveries.append({"channel": "email", "result": email_result.as_dict()})
     else:
         deliveries.append({"channel": "email", "status": "not_sent_missing_recipient"})
 
     return deliveries, feedback_result
+
+
+def _delivery_str(item: dict) -> str:
+    result = item.get("result")
+    if result:
+        error = result.get("error")
+        return f"{result.get('status', 'unknown')}({error})" if error else result.get("status", "unknown")
+    return item.get("status", "unknown")
 
 
 def _write_audit(
@@ -288,7 +300,7 @@ def _write_audit(
     feedback_sent: bool,
 ) -> int:
     delivery_summary = "; ".join(
-        item.get("result", {}).get("status") or item.get("status", "unknown") for item in deliveries
+        _delivery_str(item) for item in deliveries
     )
     reasoning = (
         f"diagnosis={diagnosis.reasoning}; gate={gate.reason}; "
@@ -349,7 +361,7 @@ def execute_and_log(state: CartPipelineState) -> dict:
         gate_reason=gate.reason,
         stage_trace=trace,
         delivery_status="; ".join(
-            item.get("result", {}).get("status") or item.get("status", "unknown") for item in deliveries
+            _delivery_str(item) for item in deliveries
         ),
         feedback_prompt_sent=feedback_result is not None,
     )

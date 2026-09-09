@@ -328,6 +328,8 @@ def _dispatch_invoice_channels(
     sms_rendered = render(sms_tmpl, **values)
     if phone:
         sms_result = send_sms(phone, sms_rendered.body)
+        if not sms_result.success:
+            logger.error("invoice_agent: sms delivery failed for event %s: %s", event.event_id, sms_result.error)
         deliveries.append({"channel": "sms", "result": sms_result.as_dict()})
     else:
         deliveries.append({"channel": "sms", "status": "not_sent_missing_recipient"})
@@ -340,6 +342,8 @@ def _dispatch_invoice_channels(
             email_rendered.subject or f"Invoice {values['invoice_number']} — Overdue",
             email_rendered.body,
         )
+        if not email_result.success:
+            logger.error("invoice_agent: email delivery failed for event %s: %s", event.event_id, email_result.error)
         deliveries.append({"channel": "email", "result": email_result.as_dict()})
     else:
         deliveries.append({"channel": "email", "status": "not_sent_missing_recipient"})
@@ -382,11 +386,16 @@ def _execute_voice_escalation(
         "Kripya turant payment karein ya humse baat karein."
     )
     voice_result = place_voice_call(phone, script, url_params={"Name": customer_name})
+    if not voice_result.success:
+        logger.error("invoice_agent: voice delivery failed for event %s: %s", event.event_id, voice_result.error)
     db.add(
         AuditLogRow(
             event_id=event.event_id,
             action_taken="voice_call",
-            reasoning=f"call_gate={gate_call.reason}; delivery={voice_result.status}",
+            reasoning=(
+                f"call_gate={gate_call.reason}; delivery={voice_result.status}"
+                + (f"({voice_result.error})" if voice_result.error else "")
+            ),
             timestamp=utc_now(),
         )
     )
@@ -408,6 +417,14 @@ def _call_history(db: Session, customer_id: str, now: datetime | None = None) ->
     return {"call_count_7d": len(recent), "last_call_at": last_call_at}
 
 
+def _delivery_str(item: dict) -> str:
+    result = item.get("result")
+    if result:
+        error = result.get("error")
+        return f"{result.get('status', 'unknown')}({error})" if error else result.get("status", "unknown")
+    return item.get("status", "unknown")
+
+
 def _write_audit(
     db: Session,
     event: Event,
@@ -418,17 +435,18 @@ def _write_audit(
     deliveries: list[dict],
     voice_result: SendResult | None,
 ) -> int:
-    delivery_summary = "; ".join(
-        item.get("result", {}).get("status") or item.get("status", "unknown")
-        for item in deliveries
-    )
+    delivery_summary = "; ".join(_delivery_str(item) for item in deliveries)
+    if voice_result and voice_result.error:
+        voice_delivery = f"{voice_result.status}({voice_result.error})"
+    else:
+        voice_delivery = voice_result.status if voice_result else "not_placed"
     reasoning = (
         f"bucket={classification.bucket}; days_overdue={classification.days_overdue}; "
         f"priority_tier={priority.tier}; priority_score={priority.score:.2f}; "
         f"priority_llm={priority.llm_invoked}; gate={gate.reason}; "
         f"decision={decision.reasoning}; deliveries={delivery_summary}; "
         f"voice_escalated={decision.voice_escalate}; "
-        f"voice_delivery={voice_result.status if voice_result else 'not_placed'}"
+        f"voice_delivery={voice_delivery}"
     )
     # One canonical audit row per event (upsert pattern matching renewal_agent)
     row = db.execute(
@@ -483,10 +501,7 @@ def execute_and_log(state: InvoicePipelineState) -> dict:
         gate_allowed=gate.allowed,
         gate_reason=gate.reason,
         stage_trace=trace,
-        delivery_status="; ".join(
-            item.get("result", {}).get("status") or item.get("status", "unknown")
-            for item in deliveries
-        ),
+        delivery_status="; ".join(_delivery_str(item) for item in deliveries),
     )
     return {
         "deliveries": deliveries,
