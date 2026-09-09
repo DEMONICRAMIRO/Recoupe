@@ -1,0 +1,2102 @@
+[
+  {
+    "event_id": "evt_880431ca6fc5",
+    "event_type": "payment_failed",
+    "customer_id": "cus_a3b2d5d75ea5",
+    "amount": 5994.31,
+    "currency": "INR",
+    "reason_code": "risk_blocked",
+    "timestamp": "2026-08-24T11:00:00.224228Z",
+    "metadata": {
+      "customer_name": "Wriddhish Bhardwaj",
+      "payment_method": "netbanking",
+      "gateway": "razorpay",
+      "attempt": 1
+    }
+  },
+  {
+    "event_id": "evt_1becb72abb42",
+    "event_type": "payment_failed",
+    "customer_id": "cus_f3f3a0c548ef",
+    "amount": 3774.0,
+    "currency": "INR",
+    "reason_code": "do_not_honor",
+    "timestamp": "2026-08-26T20:41:25.357139Z",
+    "metadata": {
+      "customer_name": "Viraj Tiwari",
+      "payment_method": "wallet",
+      "gateway": "razorpay",
+      "attempt": 3
+    }
+  },
+  {
+    "event_id": "evt_20cb4a2bb99d",
+    "event_type": "payment_failed",
+    "customer_id": "cus_82c4991e82f2",
+    "amount": 6050.47,
+    "currency": "INR",
+    "reason_code": "card_expired",
+    "timestamp": "2026-09-09T14:42:04.638869Z",
+    "metadata": {
+      "customer_name": "Fariq Kaul",
+      "payment_method": "card",
+      "gateway": "razorpay",
+      "attempt": 3
+    }
+  },
+  {
+    "event_id": "evt_210637d8c7ca",
+    "event_type": "payment_failed",
+    "customer_id": "cus_8e27886a9af8",
+    "amount": 7452.88,
+    "currency": "INR",
+    "reason_code": "insufficient_funds",
+    "timestamp": "2026-09-05T12:37:14.964177Z",
+    "metadata": {
+      "customer_name": "Chakradev Kari",
+      "payment_method": "card",
+      "gateway": "razorpay",
+      "attempt": 3
+    }
+  },
+  {
+    "event_id": "evt_3af9e6942b6c",
+    "event_type": "payment_failed",
+    "customer_id": "cus_7d2ae771494b",
+    "amount": 2482.89,
+    "currency": "INR",
+    "reason_code": "risk_blocked",
+    "timestamp": "2026-08-23T08:34:54.856266Z",
+    "metadata": {
+      "customer_name": "Udant Dewan",
+      "payment_method": "upi",
+      "gateway": "razorpay",
+      "attempt": 2
+    }
+  },
+  {
+    "event_id": "evt_aac59ba43bd0",
+    "event_type": "payment_failed",
+    "customer_id": "cus_3f3adb56305d",
+    "amount": 5785.51,
+    "currency": "INR",
+    "reason_code": "processor_error",
+    "timestamp": "2026-08-26T13:35:20.604818Z",
+    "metadata": {
+      "customer_name": "Gayathri Chaudry",
+      "payment_method": "upi",
+      "gateway": "razorpay",
+      "attempt": 3
+    }
+  },
+  {
+    "event_id": "evt_6cdf3c6edd3f",
+    "event_type": "payment_failed",
+    "customer_id": "cus_0cae9bb403a6",
+    "amount": 10838.48,
+    "currency": "INR",
+    "reason_code": "risk_blocked",
+    "timestamp": "2026-09-06T05:40:27.885056Z",
+    "metadata": {
+      "customer_name": "Dominic Kakar",
+      "payment_method": "netbanking",
+      "gateway": "razorpay",
+      "attempt": 3
+    }
+  },
+  {
+    "event_id": "evt_2eefc7f43453",
+    "event_type": "payment_failed",
+    "customer_id": "cus_3154a7951d8c",
+    "amount": 5167.95,
+    "currency": "INR",
+    "reason_code": "auth_declined",
+    "timestamp": "2026-08-23T17:39:27.752055Z",
+    "metadata": {
+      "customer_name": "Yashica Cherian",
+      "payment_method": "wallet",
+      "gateway": "razorpay",
+      "attempt": 1
+    }
+  },
+  {
+    "event_id": "evt_9435785d5294",
+    "event_type": "payment_failed",
+    "customer_id": "cus_b76e066a34aa",
+    "amount": 14311.81,
+    "currency": "INR",
+    "reason_code": "risk_blocked",
+    "timestamp": "2026-08-18T14:16:00.641868Z",
+    "metadata": {
+      "customer_name": "Gavin Batta",
+      "payment_method": "card",
+      "gateway": "razorpay",
+      "attempt": 3
+    }
+  },
+  {
+    "event_id": "evt_8f6c37afdb16",
+    "event_type": "payment_failed",
+    "customer_id": "cus_3ec973c9b9d2",
+    "amount": 13698.07,
+    "currency": "INR",
+    "reason_code": "risk_blocked",
+    "timestamp": "2026-08-19T15:30:25.121756Z",
+    "metadata": {
+      "customer_name": "Hemangini Lalla",
+      "payment_method": "card",
+      "gateway": "razorpay",
+      "attempt": 1
+    }
+  },
+  {
+    "event_id": "evt_891adafd77f6",
+    "event_type": "payment_failed",
+    "customer_id": "cus_c3131ca070c4",
+    "amount": 5670.69,
+    "currency": "INR",
+    "reason_code": "card_expired",
+    "timestamp": "2026-08-26T20:58:46.668391Z",
+    "metadata": {
+      "customer_name": "Ayushman Chander",
+      "payment_method": "upi",
+      "gateway": "razorpay",
+      "attempt": 3
+    }
+  },
+  {
+    "event_id": "evt_6d3cc7bdd97f",
+    "event_type": "payment_failed",
+    "customer_id": "cus_3ecc7a0913f6",
+    "amount": 4929.25,
+    "currency": "INR",
+    "reason_code": "insufficient_funds",
+    "timestamp": "2026-08-14T01:10:17.366353Z",
+    "metadata": {
+      "customer_name": "Aryan Maharaj",
+      "payment_method": "netbanking",
+      "gateway": "razorpay",
+      "attempt": 2
+    }
+  },
+  {
+    "event_id": "evt_ed5c40e360a6",
+    "event_type": "payment_failed",
+    "customer_id": "cus_b35004d5ab20",
+    "amount": 3667.08,
+    "currency": "INR",
+    "reason_code": "card_expired",
+    "timestamp": "2026-09-06T00:47:37.103458Z",
+    "metadata": {
+      "customer_name": "Tara Dhar",
+      "payment_method": "upi",
+      "gateway": "razorpay",
+      "attempt": 1
+    }
+  },
+  {
+    "event_id": "evt_d8c88b8601bc",
+    "event_type": "payment_failed",
+    "customer_id": "cus_eef01c7c7c59",
+    "amount": 11005.16,
+    "currency": "INR",
+    "reason_code": "insufficient_funds",
+    "timestamp": "2026-09-09T00:46:32.029933Z",
+    "metadata": {
+      "customer_name": "Aarush Lall",
+      "payment_method": "card",
+      "gateway": "razorpay",
+      "attempt": 1
+    }
+  },
+  {
+    "event_id": "evt_c474c686d5b3",
+    "event_type": "payment_failed",
+    "customer_id": "cus_91060f64d96b",
+    "amount": 9929.95,
+    "currency": "INR",
+    "reason_code": "do_not_honor",
+    "timestamp": "2026-08-15T15:31:05.299982Z",
+    "metadata": {
+      "customer_name": "Upadhriti Wadhwa",
+      "payment_method": "wallet",
+      "gateway": "razorpay",
+      "attempt": 1
+    }
+  },
+  {
+    "event_id": "evt_d550bc246583",
+    "event_type": "payment_failed",
+    "customer_id": "cus_26eb27324eb4",
+    "amount": 13940.74,
+    "currency": "INR",
+    "reason_code": "risk_blocked",
+    "timestamp": "2026-08-31T09:19:53.124723Z",
+    "metadata": {
+      "customer_name": "Devansh Rajan",
+      "payment_method": "netbanking",
+      "gateway": "razorpay",
+      "attempt": 2
+    }
+  },
+  {
+    "event_id": "evt_e609608258da",
+    "event_type": "payment_failed",
+    "customer_id": "cus_c071e6108fd4",
+    "amount": 14927.72,
+    "currency": "INR",
+    "reason_code": "risk_blocked",
+    "timestamp": "2026-08-21T21:29:22.164877Z",
+    "metadata": {
+      "customer_name": "Harini Choudhury",
+      "payment_method": "wallet",
+      "gateway": "razorpay",
+      "attempt": 1
+    }
+  },
+  {
+    "event_id": "evt_ffc958a0e885",
+    "event_type": "payment_failed",
+    "customer_id": "cus_480c5c2a4f3c",
+    "amount": 3793.04,
+    "currency": "INR",
+    "reason_code": "insufficient_funds",
+    "timestamp": "2026-08-20T20:02:53.999407Z",
+    "metadata": {
+      "customer_name": "Tripti Yadav",
+      "payment_method": "card",
+      "gateway": "razorpay",
+      "attempt": 3
+    }
+  },
+  {
+    "event_id": "evt_38b02cf210cd",
+    "event_type": "payment_failed",
+    "customer_id": "cus_6dc116badc8e",
+    "amount": 3380.46,
+    "currency": "INR",
+    "reason_code": "insufficient_funds",
+    "timestamp": "2026-08-31T22:16:19.955775Z",
+    "metadata": {
+      "customer_name": "Yashica Issac",
+      "payment_method": "upi",
+      "gateway": "razorpay",
+      "attempt": 1
+    }
+  },
+  {
+    "event_id": "evt_65805d0d80d2",
+    "event_type": "payment_failed",
+    "customer_id": "cus_63b7e816cedc",
+    "amount": 1103.33,
+    "currency": "INR",
+    "reason_code": "insufficient_funds",
+    "timestamp": "2026-09-05T11:33:51.179779Z",
+    "metadata": {
+      "customer_name": "Liam Koshy",
+      "payment_method": "upi",
+      "gateway": "razorpay",
+      "attempt": 3
+    }
+  },
+  {
+    "event_id": "evt_e47c1ed23ad9",
+    "event_type": "payment_failed",
+    "customer_id": "cus_a5334598dad8",
+    "amount": 3645.51,
+    "currency": "INR",
+    "reason_code": "risk_blocked",
+    "timestamp": "2026-08-25T06:07:30.604119Z",
+    "metadata": {
+      "customer_name": "Nathaniel Sami",
+      "payment_method": "card",
+      "gateway": "razorpay",
+      "attempt": 3
+    }
+  },
+  {
+    "event_id": "evt_7287ff3cc081",
+    "event_type": "payment_failed",
+    "customer_id": "cus_f79a58527d6d",
+    "amount": 14039.1,
+    "currency": "INR",
+    "reason_code": "do_not_honor",
+    "timestamp": "2026-08-27T23:29:56.818398Z",
+    "metadata": {
+      "customer_name": "Radhika Dugar",
+      "payment_method": "card",
+      "gateway": "razorpay",
+      "attempt": 2
+    }
+  },
+  {
+    "event_id": "evt_7e238f062651",
+    "event_type": "payment_failed",
+    "customer_id": "cus_32956832367d",
+    "amount": 12131.51,
+    "currency": "INR",
+    "reason_code": "card_expired",
+    "timestamp": "2026-08-13T12:32:28.686828Z",
+    "metadata": {
+      "customer_name": "Kashvi Edwin",
+      "payment_method": "wallet",
+      "gateway": "razorpay",
+      "attempt": 2
+    }
+  },
+  {
+    "event_id": "evt_1d7b90ffac0d",
+    "event_type": "payment_failed",
+    "customer_id": "cus_bc4cbaaf3306",
+    "amount": 6410.75,
+    "currency": "INR",
+    "reason_code": "processor_error",
+    "timestamp": "2026-09-05T14:35:21.074095Z",
+    "metadata": {
+      "customer_name": "Simon Tata",
+      "payment_method": "upi",
+      "gateway": "razorpay",
+      "attempt": 3
+    }
+  },
+  {
+    "event_id": "evt_012d25b67fa4",
+    "event_type": "payment_failed",
+    "customer_id": "cus_7ca82b242cfa",
+    "amount": 9836.14,
+    "currency": "INR",
+    "reason_code": "risk_blocked",
+    "timestamp": "2026-08-13T15:29:15.344347Z",
+    "metadata": {
+      "customer_name": "Isha Kadakia",
+      "payment_method": "wallet",
+      "gateway": "razorpay",
+      "attempt": 3
+    }
+  },
+  {
+    "event_id": "evt_46eaeca9bb33",
+    "event_type": "payment_failed",
+    "customer_id": "cus_6f513403f9e0",
+    "amount": 5154.95,
+    "currency": "INR",
+    "reason_code": "insufficient_funds",
+    "timestamp": "2026-08-18T03:39:33.439842Z",
+    "metadata": {
+      "customer_name": "Gagan Sami",
+      "payment_method": "card",
+      "gateway": "razorpay",
+      "attempt": 3
+    }
+  },
+  {
+    "event_id": "evt_5dcec1676bdb",
+    "event_type": "payment_failed",
+    "customer_id": "cus_ab10293eafeb",
+    "amount": 6783.79,
+    "currency": "INR",
+    "reason_code": "processor_error",
+    "timestamp": "2026-08-16T04:44:17.211082Z",
+    "metadata": {
+      "customer_name": "Ekbal Garg",
+      "payment_method": "wallet",
+      "gateway": "razorpay",
+      "attempt": 1
+    }
+  },
+  {
+    "event_id": "evt_9584f7a4bec7",
+    "event_type": "payment_failed",
+    "customer_id": "cus_5cb0209278ed",
+    "amount": 13129.72,
+    "currency": "INR",
+    "reason_code": "insufficient_funds",
+    "timestamp": "2026-08-23T23:40:51.113500Z",
+    "metadata": {
+      "customer_name": "Theodore Devi",
+      "payment_method": "upi",
+      "gateway": "razorpay",
+      "attempt": 1
+    }
+  },
+  {
+    "event_id": "evt_633f7e1da52d",
+    "event_type": "payment_failed",
+    "customer_id": "cus_1731b9043b25",
+    "amount": 9816.61,
+    "currency": "INR",
+    "reason_code": "do_not_honor",
+    "timestamp": "2026-09-04T18:33:59.722848Z",
+    "metadata": {
+      "customer_name": "Michael Dutta",
+      "payment_method": "upi",
+      "gateway": "razorpay",
+      "attempt": 1
+    }
+  },
+  {
+    "event_id": "evt_3693cda2f052",
+    "event_type": "payment_failed",
+    "customer_id": "cus_63c7bff71e05",
+    "amount": 2577.2,
+    "currency": "INR",
+    "reason_code": "processor_error",
+    "timestamp": "2026-08-25T03:12:17.241702Z",
+    "metadata": {
+      "customer_name": "Arunima Dugal",
+      "payment_method": "wallet",
+      "gateway": "razorpay",
+      "attempt": 1
+    }
+  },
+  {
+    "event_id": "evt_a150e6d35120",
+    "event_type": "cart_abandoned",
+    "customer_id": "cus_9f1c4758a843",
+    "amount": 1483.33,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-08-10T18:10:42.963008Z",
+    "metadata": {
+      "customer_name": "Nihal Shere",
+      "cart_items": 4,
+      "device": "desktop",
+      "session_duration_sec": 1635,
+      "purchase_history_count": 12,
+      "avg_order_value": 2384.04,
+      "price_sensitivity": "medium"
+    }
+  },
+  {
+    "event_id": "evt_51b0e376087f",
+    "event_type": "cart_abandoned",
+    "customer_id": "cus_751e3eaa5a60",
+    "amount": 5633.11,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-09-01T14:35:26.005062Z",
+    "metadata": {
+      "customer_name": "Kritika Brar",
+      "cart_items": 5,
+      "device": "desktop",
+      "session_duration_sec": 347,
+      "purchase_history_count": 3,
+      "avg_order_value": 1624.2,
+      "price_sensitivity": "low"
+    }
+  },
+  {
+    "event_id": "evt_2bcb57742857",
+    "event_type": "cart_abandoned",
+    "customer_id": "cus_d9e9a4c92dc3",
+    "amount": 4717.19,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-08-26T23:00:26.184283Z",
+    "metadata": {
+      "customer_name": "Anamika Kanda",
+      "cart_items": 6,
+      "device": "desktop",
+      "session_duration_sec": 147,
+      "purchase_history_count": 0,
+      "avg_order_value": 3004.05,
+      "price_sensitivity": "high"
+    }
+  },
+  {
+    "event_id": "evt_b5799db9f336",
+    "event_type": "cart_abandoned",
+    "customer_id": "cus_346602909e78",
+    "amount": 7371.14,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-08-26T15:02:15.164942Z",
+    "metadata": {
+      "customer_name": "Advay Contractor",
+      "cart_items": 1,
+      "device": "mobile",
+      "session_duration_sec": 1773,
+      "purchase_history_count": 2,
+      "avg_order_value": 528.9,
+      "price_sensitivity": "low"
+    }
+  },
+  {
+    "event_id": "evt_2ddba955fa01",
+    "event_type": "cart_abandoned",
+    "customer_id": "cus_2e0e7618fd69",
+    "amount": 5466.33,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-08-17T17:58:24.718163Z",
+    "metadata": {
+      "customer_name": "Lajita Chatterjee",
+      "cart_items": 1,
+      "device": "mobile",
+      "session_duration_sec": 1215,
+      "purchase_history_count": 9,
+      "avg_order_value": 390.76,
+      "price_sensitivity": "low"
+    }
+  },
+  {
+    "event_id": "evt_7a77d45bc756",
+    "event_type": "cart_abandoned",
+    "customer_id": "cus_0af288c3df4f",
+    "amount": 3469.37,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-08-28T04:52:14.796164Z",
+    "metadata": {
+      "customer_name": "Daksh Karnik",
+      "cart_items": 5,
+      "device": "desktop",
+      "session_duration_sec": 564,
+      "purchase_history_count": 3,
+      "avg_order_value": 3414.68,
+      "price_sensitivity": "medium"
+    }
+  },
+  {
+    "event_id": "evt_b8173b43eba7",
+    "event_type": "cart_abandoned",
+    "customer_id": "cus_06fc6f9399b2",
+    "amount": 2060.99,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-08-22T13:35:33.137204Z",
+    "metadata": {
+      "customer_name": "Priya Rastogi",
+      "cart_items": 6,
+      "device": "desktop",
+      "session_duration_sec": 966,
+      "purchase_history_count": 5,
+      "avg_order_value": 4659.29,
+      "price_sensitivity": "low"
+    }
+  },
+  {
+    "event_id": "evt_d4d1e9c7d8ff",
+    "event_type": "cart_abandoned",
+    "customer_id": "cus_8af7e0e72702",
+    "amount": 271.67,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-08-29T07:51:41.012559Z",
+    "metadata": {
+      "customer_name": "Lajita Mall",
+      "cart_items": 5,
+      "device": "mobile",
+      "session_duration_sec": 180,
+      "purchase_history_count": 8,
+      "avg_order_value": 1223.14,
+      "price_sensitivity": "medium"
+    }
+  },
+  {
+    "event_id": "evt_885cbae16c55",
+    "event_type": "cart_abandoned",
+    "customer_id": "cus_17c2e3800153",
+    "amount": 1232.29,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-08-21T03:54:47.122549Z",
+    "metadata": {
+      "customer_name": "Diya Rattan",
+      "cart_items": 1,
+      "device": "mobile",
+      "session_duration_sec": 786,
+      "purchase_history_count": 4,
+      "avg_order_value": 957.18,
+      "price_sensitivity": "high"
+    }
+  },
+  {
+    "event_id": "evt_85a8233e6578",
+    "event_type": "cart_abandoned",
+    "customer_id": "cus_fad423ac24e3",
+    "amount": 5687.31,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-08-29T01:02:04.991083Z",
+    "metadata": {
+      "customer_name": "Saumya Mall",
+      "cart_items": 6,
+      "device": "mobile",
+      "session_duration_sec": 1397,
+      "purchase_history_count": 8,
+      "avg_order_value": 1637.02,
+      "price_sensitivity": "high"
+    }
+  },
+  {
+    "event_id": "evt_fb8a83ca63ab",
+    "event_type": "cart_abandoned",
+    "customer_id": "cus_dbbaf63c75a4",
+    "amount": 1007.08,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-09-06T00:52:41.315533Z",
+    "metadata": {
+      "customer_name": "Isaac Patil",
+      "cart_items": 3,
+      "device": "mobile",
+      "session_duration_sec": 249,
+      "purchase_history_count": 11,
+      "avg_order_value": 2855.47,
+      "price_sensitivity": "medium"
+    }
+  },
+  {
+    "event_id": "evt_f895700c4126",
+    "event_type": "cart_abandoned",
+    "customer_id": "cus_650c3ea0516e",
+    "amount": 2396.98,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-08-17T00:16:48.287581Z",
+    "metadata": {
+      "customer_name": "Rushil Saini",
+      "cart_items": 3,
+      "device": "mobile",
+      "session_duration_sec": 1437,
+      "purchase_history_count": 10,
+      "avg_order_value": 4293.98,
+      "price_sensitivity": "high"
+    }
+  },
+  {
+    "event_id": "evt_f85fb364fa1e",
+    "event_type": "cart_abandoned",
+    "customer_id": "cus_7216a5f5c5fc",
+    "amount": 4010.04,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-09-06T20:28:08.407199Z",
+    "metadata": {
+      "customer_name": "Janya Gaba",
+      "cart_items": 1,
+      "device": "mobile",
+      "session_duration_sec": 1329,
+      "purchase_history_count": 6,
+      "avg_order_value": 4180.87,
+      "price_sensitivity": "low"
+    }
+  },
+  {
+    "event_id": "evt_bff7a7634eaa",
+    "event_type": "cart_abandoned",
+    "customer_id": "cus_a819e2c6ac06",
+    "amount": 226.66,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-09-02T19:49:57.248388Z",
+    "metadata": {
+      "customer_name": "Janaki Handa",
+      "cart_items": 6,
+      "device": "desktop",
+      "session_duration_sec": 360,
+      "purchase_history_count": 11,
+      "avg_order_value": 2320.81,
+      "price_sensitivity": "high"
+    }
+  },
+  {
+    "event_id": "evt_4dc490f29fb6",
+    "event_type": "cart_abandoned",
+    "customer_id": "cus_8af424e2b302",
+    "amount": 3535.39,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-08-10T23:35:20.083706Z",
+    "metadata": {
+      "customer_name": "Ekiya Suresh",
+      "cart_items": 1,
+      "device": "mobile",
+      "session_duration_sec": 1147,
+      "purchase_history_count": 0,
+      "avg_order_value": 4206.06,
+      "price_sensitivity": "high"
+    }
+  },
+  {
+    "event_id": "evt_5bcd14b13a4d",
+    "event_type": "cart_abandoned",
+    "customer_id": "cus_63b7e816cedc",
+    "amount": 3307.43,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-08-19T01:13:15.356493Z",
+    "metadata": {
+      "customer_name": "Liam Koshy",
+      "cart_items": 1,
+      "device": "desktop",
+      "session_duration_sec": 749,
+      "purchase_history_count": 10,
+      "avg_order_value": 2645.15,
+      "price_sensitivity": "high"
+    }
+  },
+  {
+    "event_id": "evt_b7b2af1fa471",
+    "event_type": "cart_abandoned",
+    "customer_id": "cus_dbbaf63c75a4",
+    "amount": 7852.95,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-08-26T18:42:07.400906Z",
+    "metadata": {
+      "customer_name": "Isaac Patil",
+      "cart_items": 1,
+      "device": "mobile",
+      "session_duration_sec": 564,
+      "purchase_history_count": 2,
+      "avg_order_value": 2986.83,
+      "price_sensitivity": "medium"
+    }
+  },
+  {
+    "event_id": "evt_56df9ca70cc3",
+    "event_type": "cart_abandoned",
+    "customer_id": "cus_a819e2c6ac06",
+    "amount": 497.44,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-08-28T14:09:28.915249Z",
+    "metadata": {
+      "customer_name": "Janaki Handa",
+      "cart_items": 3,
+      "device": "desktop",
+      "session_duration_sec": 923,
+      "purchase_history_count": 9,
+      "avg_order_value": 4924.33,
+      "price_sensitivity": "low"
+    }
+  },
+  {
+    "event_id": "evt_214bc5f7fda3",
+    "event_type": "cart_abandoned",
+    "customer_id": "cus_480c5c2a4f3c",
+    "amount": 3203.91,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-08-27T23:46:12.431064Z",
+    "metadata": {
+      "customer_name": "Tripti Yadav",
+      "cart_items": 3,
+      "device": "mobile",
+      "session_duration_sec": 1481,
+      "purchase_history_count": 6,
+      "avg_order_value": 208.12,
+      "price_sensitivity": "high"
+    }
+  },
+  {
+    "event_id": "evt_5373784d6410",
+    "event_type": "cart_abandoned",
+    "customer_id": "cus_8af7e0e72702",
+    "amount": 5557.17,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-09-07T21:36:58.230391Z",
+    "metadata": {
+      "customer_name": "Lajita Mall",
+      "cart_items": 6,
+      "device": "mobile",
+      "session_duration_sec": 775,
+      "purchase_history_count": 6,
+      "avg_order_value": 535.87,
+      "price_sensitivity": "high"
+    }
+  },
+  {
+    "event_id": "evt_fe98ee9cad66",
+    "event_type": "cart_abandoned",
+    "customer_id": "cus_7d2ae771494b",
+    "amount": 7381.93,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-08-29T09:17:55.044902Z",
+    "metadata": {
+      "customer_name": "Udant Dewan",
+      "cart_items": 6,
+      "device": "mobile",
+      "session_duration_sec": 1504,
+      "purchase_history_count": 4,
+      "avg_order_value": 2634.19,
+      "price_sensitivity": "high"
+    }
+  },
+  {
+    "event_id": "evt_a23c4ff0ee7c",
+    "event_type": "cart_abandoned",
+    "customer_id": "cus_f79a58527d6d",
+    "amount": 3384.87,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-08-22T18:21:18.025575Z",
+    "metadata": {
+      "customer_name": "Radhika Dugar",
+      "cart_items": 3,
+      "device": "mobile",
+      "session_duration_sec": 422,
+      "purchase_history_count": 6,
+      "avg_order_value": 3391.66,
+      "price_sensitivity": "medium"
+    }
+  },
+  {
+    "event_id": "evt_7496e8899a32",
+    "event_type": "cart_abandoned",
+    "customer_id": "cus_82c4991e82f2",
+    "amount": 5482.76,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-09-06T18:38:48.196860Z",
+    "metadata": {
+      "customer_name": "Fariq Kaul",
+      "cart_items": 5,
+      "device": "desktop",
+      "session_duration_sec": 861,
+      "purchase_history_count": 8,
+      "avg_order_value": 4201.88,
+      "price_sensitivity": "medium"
+    }
+  },
+  {
+    "event_id": "evt_0ab6d4b1b359",
+    "event_type": "cart_abandoned",
+    "customer_id": "cus_3ec973c9b9d2",
+    "amount": 2437.21,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-08-23T14:08:46.307095Z",
+    "metadata": {
+      "customer_name": "Hemangini Lalla",
+      "cart_items": 5,
+      "device": "desktop",
+      "session_duration_sec": 982,
+      "purchase_history_count": 7,
+      "avg_order_value": 2322.37,
+      "price_sensitivity": "low"
+    }
+  },
+  {
+    "event_id": "evt_13fab78a8981",
+    "event_type": "cart_abandoned",
+    "customer_id": "cus_ab10293eafeb",
+    "amount": 4186.67,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-09-03T12:06:58.376804Z",
+    "metadata": {
+      "customer_name": "Ekbal Garg",
+      "cart_items": 6,
+      "device": "mobile",
+      "session_duration_sec": 1379,
+      "purchase_history_count": 1,
+      "avg_order_value": 1562.17,
+      "price_sensitivity": "high"
+    }
+  },
+  {
+    "event_id": "evt_1a55567b0e29",
+    "event_type": "cart_abandoned",
+    "customer_id": "cus_91060f64d96b",
+    "amount": 5136.57,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-08-20T17:57:44.180343Z",
+    "metadata": {
+      "customer_name": "Upadhriti Wadhwa",
+      "cart_items": 2,
+      "device": "desktop",
+      "session_duration_sec": 490,
+      "purchase_history_count": 12,
+      "avg_order_value": 1155.82,
+      "price_sensitivity": "low"
+    }
+  },
+  {
+    "event_id": "evt_4c257ba70c31",
+    "event_type": "cart_abandoned",
+    "customer_id": "cus_7216a5f5c5fc",
+    "amount": 559.51,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-09-09T05:03:38.393372Z",
+    "metadata": {
+      "customer_name": "Janya Gaba",
+      "cart_items": 5,
+      "device": "mobile",
+      "session_duration_sec": 962,
+      "purchase_history_count": 6,
+      "avg_order_value": 4453.46,
+      "price_sensitivity": "high"
+    }
+  },
+  {
+    "event_id": "evt_e21c9235018a",
+    "event_type": "cart_abandoned",
+    "customer_id": "cus_1731b9043b25",
+    "amount": 1715.79,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-08-31T14:00:06.439592Z",
+    "metadata": {
+      "customer_name": "Michael Dutta",
+      "cart_items": 4,
+      "device": "desktop",
+      "session_duration_sec": 529,
+      "purchase_history_count": 2,
+      "avg_order_value": 3349.08,
+      "price_sensitivity": "low"
+    }
+  },
+  {
+    "event_id": "evt_20073db9b066",
+    "event_type": "cart_abandoned",
+    "customer_id": "cus_5cb0209278ed",
+    "amount": 7162.64,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-09-05T12:08:38.167896Z",
+    "metadata": {
+      "customer_name": "Theodore Devi",
+      "cart_items": 1,
+      "device": "desktop",
+      "session_duration_sec": 478,
+      "purchase_history_count": 2,
+      "avg_order_value": 4059.73,
+      "price_sensitivity": "high"
+    }
+  },
+  {
+    "event_id": "evt_b11814b7c35e",
+    "event_type": "cart_abandoned",
+    "customer_id": "cus_26eb27324eb4",
+    "amount": 4239.59,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-08-12T04:47:02.276606Z",
+    "metadata": {
+      "customer_name": "Devansh Rajan",
+      "cart_items": 2,
+      "device": "mobile",
+      "session_duration_sec": 964,
+      "purchase_history_count": 2,
+      "avg_order_value": 4046.8,
+      "price_sensitivity": "high"
+    }
+  },
+  {
+    "event_id": "evt_45911afe13ad",
+    "event_type": "renewal_failed",
+    "customer_id": "cus_c3131ca070c4",
+    "amount": 1108.68,
+    "currency": "INR",
+    "reason_code": "processor_error",
+    "timestamp": "2026-09-08T04:39:18.887406Z",
+    "metadata": {
+      "customer_name": "Ayushman Chander",
+      "subscription_id": "sub_6ed132e115",
+      "plan": "yearly",
+      "attempt": 3,
+      "tenure_months": 53,
+      "ltv_amount": 143995.16
+    }
+  },
+  {
+    "event_id": "evt_a38300868d0f",
+    "event_type": "renewal_failed",
+    "customer_id": "cus_9f1c4758a843",
+    "amount": 1058.58,
+    "currency": "INR",
+    "reason_code": "mandate_revoked",
+    "timestamp": "2026-09-06T14:36:59.625902Z",
+    "metadata": {
+      "customer_name": "Nihal Shere",
+      "subscription_id": "sub_1b57baba0e",
+      "plan": "yearly",
+      "attempt": 2,
+      "tenure_months": 17,
+      "ltv_amount": 150479.47
+    }
+  },
+  {
+    "event_id": "evt_4bd83c439e51",
+    "event_type": "renewal_failed",
+    "customer_id": "cus_32956832367d",
+    "amount": 1695.58,
+    "currency": "INR",
+    "reason_code": "processor_error",
+    "timestamp": "2026-09-02T16:00:45.292019Z",
+    "metadata": {
+      "customer_name": "Kashvi Edwin",
+      "subscription_id": "sub_c53a856bc2",
+      "plan": "yearly",
+      "attempt": 3,
+      "tenure_months": 16,
+      "ltv_amount": 55282.19
+    }
+  },
+  {
+    "event_id": "evt_77a4224c0e72",
+    "event_type": "renewal_failed",
+    "customer_id": "cus_8af424e2b302",
+    "amount": 246.3,
+    "currency": "INR",
+    "reason_code": "processor_error",
+    "timestamp": "2026-08-17T17:27:43.576535Z",
+    "metadata": {
+      "customer_name": "Ekiya Suresh",
+      "subscription_id": "sub_95258f74b1",
+      "plan": "yearly",
+      "attempt": 2,
+      "tenure_months": 58,
+      "ltv_amount": 108260.37
+    }
+  },
+  {
+    "event_id": "evt_a565eb7de080",
+    "event_type": "renewal_failed",
+    "customer_id": "cus_06fc6f9399b2",
+    "amount": 362.05,
+    "currency": "INR",
+    "reason_code": "insufficient_funds",
+    "timestamp": "2026-08-22T04:24:43.700303Z",
+    "metadata": {
+      "customer_name": "Priya Rastogi",
+      "subscription_id": "sub_2d006c8bf9",
+      "plan": "monthly",
+      "attempt": 3,
+      "tenure_months": 14,
+      "ltv_amount": 13313.66
+    }
+  },
+  {
+    "event_id": "evt_f782bc59c13a",
+    "event_type": "renewal_failed",
+    "customer_id": "cus_2e0e7618fd69",
+    "amount": 873.85,
+    "currency": "INR",
+    "reason_code": "mandate_revoked",
+    "timestamp": "2026-08-23T03:59:03.037116Z",
+    "metadata": {
+      "customer_name": "Lajita Chatterjee",
+      "subscription_id": "sub_d4728c220c",
+      "plan": "monthly",
+      "attempt": 2,
+      "tenure_months": 25,
+      "ltv_amount": 181015.28
+    }
+  },
+  {
+    "event_id": "evt_22c2829b0fcb",
+    "event_type": "renewal_failed",
+    "customer_id": "cus_17c2e3800153",
+    "amount": 1209.33,
+    "currency": "INR",
+    "reason_code": "card_expired",
+    "timestamp": "2026-09-05T09:28:25.650053Z",
+    "metadata": {
+      "customer_name": "Diya Rattan",
+      "subscription_id": "sub_1b54c9fd8b",
+      "plan": "yearly",
+      "attempt": 2,
+      "tenure_months": 1,
+      "ltv_amount": 188576.96
+    }
+  },
+  {
+    "event_id": "evt_4592e5770e8d",
+    "event_type": "renewal_failed",
+    "customer_id": "cus_3ecc7a0913f6",
+    "amount": 666.66,
+    "currency": "INR",
+    "reason_code": "mandate_revoked",
+    "timestamp": "2026-09-05T07:06:33.310196Z",
+    "metadata": {
+      "customer_name": "Aryan Maharaj",
+      "subscription_id": "sub_fff072cb64",
+      "plan": "yearly",
+      "attempt": 3,
+      "tenure_months": 48,
+      "ltv_amount": 147059.5
+    }
+  },
+  {
+    "event_id": "evt_3a97b653a805",
+    "event_type": "renewal_failed",
+    "customer_id": "cus_a3b2d5d75ea5",
+    "amount": 1619.55,
+    "currency": "INR",
+    "reason_code": "insufficient_funds",
+    "timestamp": "2026-08-25T08:09:07.028131Z",
+    "metadata": {
+      "customer_name": "Wriddhish Bhardwaj",
+      "subscription_id": "sub_328173a01d",
+      "plan": "yearly",
+      "attempt": 2,
+      "tenure_months": 32,
+      "ltv_amount": 6290.45
+    }
+  },
+  {
+    "event_id": "evt_dcfe45db0c65",
+    "event_type": "renewal_failed",
+    "customer_id": "cus_b76e066a34aa",
+    "amount": 737.98,
+    "currency": "INR",
+    "reason_code": "mandate_revoked",
+    "timestamp": "2026-09-01T10:02:14.353131Z",
+    "metadata": {
+      "customer_name": "Gavin Batta",
+      "subscription_id": "sub_bc38c04392",
+      "plan": "yearly",
+      "attempt": 1,
+      "tenure_months": 40,
+      "ltv_amount": 107057.66
+    }
+  },
+  {
+    "event_id": "evt_97caaa5f536d",
+    "event_type": "renewal_failed",
+    "customer_id": "cus_0cae9bb403a6",
+    "amount": 1823.07,
+    "currency": "INR",
+    "reason_code": "card_expired",
+    "timestamp": "2026-08-13T05:04:08.044245Z",
+    "metadata": {
+      "customer_name": "Dominic Kakar",
+      "subscription_id": "sub_166d42fb0c",
+      "plan": "yearly",
+      "attempt": 1,
+      "tenure_months": 56,
+      "ltv_amount": 92608.84
+    }
+  },
+  {
+    "event_id": "evt_9840ec8969e9",
+    "event_type": "renewal_failed",
+    "customer_id": "cus_650c3ea0516e",
+    "amount": 194.59,
+    "currency": "INR",
+    "reason_code": "mandate_revoked",
+    "timestamp": "2026-08-20T12:19:14.335034Z",
+    "metadata": {
+      "customer_name": "Rushil Saini",
+      "subscription_id": "sub_33708d1832",
+      "plan": "yearly",
+      "attempt": 2,
+      "tenure_months": 22,
+      "ltv_amount": 152365.33
+    }
+  },
+  {
+    "event_id": "evt_75c752465758",
+    "event_type": "renewal_failed",
+    "customer_id": "cus_a5334598dad8",
+    "amount": 819.72,
+    "currency": "INR",
+    "reason_code": "mandate_revoked",
+    "timestamp": "2026-08-18T06:15:44.032701Z",
+    "metadata": {
+      "customer_name": "Nathaniel Sami",
+      "subscription_id": "sub_397e76f4bc",
+      "plan": "monthly",
+      "attempt": 2,
+      "tenure_months": 2,
+      "ltv_amount": 149930.34
+    }
+  },
+  {
+    "event_id": "evt_2e79c2180b3d",
+    "event_type": "renewal_failed",
+    "customer_id": "cus_f3f3a0c548ef",
+    "amount": 198.01,
+    "currency": "INR",
+    "reason_code": "processor_error",
+    "timestamp": "2026-08-17T10:04:00.075867Z",
+    "metadata": {
+      "customer_name": "Viraj Tiwari",
+      "subscription_id": "sub_55f8f63dc8",
+      "plan": "monthly",
+      "attempt": 3,
+      "tenure_months": 3,
+      "ltv_amount": 150969.52
+    }
+  },
+  {
+    "event_id": "evt_eb7dd696abb0",
+    "event_type": "renewal_failed",
+    "customer_id": "cus_eef01c7c7c59",
+    "amount": 1904.21,
+    "currency": "INR",
+    "reason_code": "insufficient_funds",
+    "timestamp": "2026-09-04T20:52:17.391891Z",
+    "metadata": {
+      "customer_name": "Aarush Lall",
+      "subscription_id": "sub_7e19066715",
+      "plan": "monthly",
+      "attempt": 1,
+      "tenure_months": 9,
+      "ltv_amount": 94975.43
+    }
+  },
+  {
+    "event_id": "evt_3f0b360f48e8",
+    "event_type": "renewal_failed",
+    "customer_id": "cus_3154a7951d8c",
+    "amount": 316.45,
+    "currency": "INR",
+    "reason_code": "insufficient_funds",
+    "timestamp": "2026-08-24T15:27:04.307385Z",
+    "metadata": {
+      "customer_name": "Yashica Cherian",
+      "subscription_id": "sub_d634130127",
+      "plan": "yearly",
+      "attempt": 2,
+      "tenure_months": 11,
+      "ltv_amount": 121375.59
+    }
+  },
+  {
+    "event_id": "evt_44489d025dfb",
+    "event_type": "renewal_failed",
+    "customer_id": "cus_bc4cbaaf3306",
+    "amount": 1931.06,
+    "currency": "INR",
+    "reason_code": "card_expired",
+    "timestamp": "2026-09-03T00:38:12.791288Z",
+    "metadata": {
+      "customer_name": "Simon Tata",
+      "subscription_id": "sub_b2f890eebf",
+      "plan": "monthly",
+      "attempt": 2,
+      "tenure_months": 7,
+      "ltv_amount": 115947.6
+    }
+  },
+  {
+    "event_id": "evt_9bdee5329050",
+    "event_type": "renewal_failed",
+    "customer_id": "cus_c071e6108fd4",
+    "amount": 1864.81,
+    "currency": "INR",
+    "reason_code": "mandate_revoked",
+    "timestamp": "2026-08-22T14:13:04.534732Z",
+    "metadata": {
+      "customer_name": "Harini Choudhury",
+      "subscription_id": "sub_f4854b626f",
+      "plan": "monthly",
+      "attempt": 1,
+      "tenure_months": 38,
+      "ltv_amount": 138277.58
+    }
+  },
+  {
+    "event_id": "evt_12a6c3c41752",
+    "event_type": "renewal_failed",
+    "customer_id": "cus_fad423ac24e3",
+    "amount": 1291.39,
+    "currency": "INR",
+    "reason_code": "card_expired",
+    "timestamp": "2026-08-31T14:36:20.484790Z",
+    "metadata": {
+      "customer_name": "Saumya Mall",
+      "subscription_id": "sub_836f22c133",
+      "plan": "yearly",
+      "attempt": 3,
+      "tenure_months": 39,
+      "ltv_amount": 161202.83
+    }
+  },
+  {
+    "event_id": "evt_f81a45aca017",
+    "event_type": "renewal_failed",
+    "customer_id": "cus_8e27886a9af8",
+    "amount": 1612.63,
+    "currency": "INR",
+    "reason_code": "card_expired",
+    "timestamp": "2026-08-21T02:36:48.382000Z",
+    "metadata": {
+      "customer_name": "Chakradev Kari",
+      "subscription_id": "sub_8f6d14c8e2",
+      "plan": "yearly",
+      "attempt": 3,
+      "tenure_months": 24,
+      "ltv_amount": 14256.87
+    }
+  },
+  {
+    "event_id": "evt_d2d0e96c5a5a",
+    "event_type": "renewal_failed",
+    "customer_id": "cus_751e3eaa5a60",
+    "amount": 1329.98,
+    "currency": "INR",
+    "reason_code": "card_expired",
+    "timestamp": "2026-09-05T04:19:16.247504Z",
+    "metadata": {
+      "customer_name": "Kritika Brar",
+      "subscription_id": "sub_47ef278c54",
+      "plan": "yearly",
+      "attempt": 1,
+      "tenure_months": 28,
+      "ltv_amount": 192177.12
+    }
+  },
+  {
+    "event_id": "evt_c84b94c13fe2",
+    "event_type": "renewal_failed",
+    "customer_id": "cus_d9e9a4c92dc3",
+    "amount": 1307.25,
+    "currency": "INR",
+    "reason_code": "mandate_revoked",
+    "timestamp": "2026-08-31T21:53:20.226807Z",
+    "metadata": {
+      "customer_name": "Anamika Kanda",
+      "subscription_id": "sub_0bbed8927d",
+      "plan": "yearly",
+      "attempt": 1,
+      "tenure_months": 47,
+      "ltv_amount": 104588.48
+    }
+  },
+  {
+    "event_id": "evt_9602b4c19914",
+    "event_type": "renewal_failed",
+    "customer_id": "cus_6dc116badc8e",
+    "amount": 1335.52,
+    "currency": "INR",
+    "reason_code": "mandate_revoked",
+    "timestamp": "2026-08-24T15:20:09.038398Z",
+    "metadata": {
+      "customer_name": "Yashica Issac",
+      "subscription_id": "sub_ba42e790f3",
+      "plan": "yearly",
+      "attempt": 2,
+      "tenure_months": 55,
+      "ltv_amount": 49476.29
+    }
+  },
+  {
+    "event_id": "evt_e65e758d9697",
+    "event_type": "renewal_failed",
+    "customer_id": "cus_0af288c3df4f",
+    "amount": 1875.72,
+    "currency": "INR",
+    "reason_code": "processor_error",
+    "timestamp": "2026-09-06T03:24:04.251256Z",
+    "metadata": {
+      "customer_name": "Daksh Karnik",
+      "subscription_id": "sub_81553c3ff3",
+      "plan": "monthly",
+      "attempt": 2,
+      "tenure_months": 37,
+      "ltv_amount": 122261.17
+    }
+  },
+  {
+    "event_id": "evt_213b031ccc9b",
+    "event_type": "renewal_failed",
+    "customer_id": "cus_7ca82b242cfa",
+    "amount": 819.46,
+    "currency": "INR",
+    "reason_code": "card_expired",
+    "timestamp": "2026-08-25T12:31:38.679693Z",
+    "metadata": {
+      "customer_name": "Isha Kadakia",
+      "subscription_id": "sub_49fe472cfe",
+      "plan": "yearly",
+      "attempt": 1,
+      "tenure_months": 32,
+      "ltv_amount": 42817.91
+    }
+  },
+  {
+    "event_id": "evt_871aaaf7e350",
+    "event_type": "renewal_failed",
+    "customer_id": "cus_6f513403f9e0",
+    "amount": 1615.68,
+    "currency": "INR",
+    "reason_code": "processor_error",
+    "timestamp": "2026-08-19T01:58:51.023314Z",
+    "metadata": {
+      "customer_name": "Gagan Sami",
+      "subscription_id": "sub_a99f7ec3f5",
+      "plan": "yearly",
+      "attempt": 3,
+      "tenure_months": 1,
+      "ltv_amount": 103567.14
+    }
+  },
+  {
+    "event_id": "evt_9e73b0ae1129",
+    "event_type": "renewal_failed",
+    "customer_id": "cus_63c7bff71e05",
+    "amount": 462.2,
+    "currency": "INR",
+    "reason_code": "insufficient_funds",
+    "timestamp": "2026-09-01T07:04:49.751679Z",
+    "metadata": {
+      "customer_name": "Arunima Dugal",
+      "subscription_id": "sub_b8b3fb6408",
+      "plan": "yearly",
+      "attempt": 3,
+      "tenure_months": 49,
+      "ltv_amount": 48444.63
+    }
+  },
+  {
+    "event_id": "evt_4f2d9c0b8d9e",
+    "event_type": "renewal_failed",
+    "customer_id": "cus_b35004d5ab20",
+    "amount": 1004.05,
+    "currency": "INR",
+    "reason_code": "mandate_revoked",
+    "timestamp": "2026-08-24T03:18:44.654849Z",
+    "metadata": {
+      "customer_name": "Tara Dhar",
+      "subscription_id": "sub_c66c2c23a7",
+      "plan": "monthly",
+      "attempt": 1,
+      "tenure_months": 19,
+      "ltv_amount": 44708.48
+    }
+  },
+  {
+    "event_id": "evt_43d256e2bc63",
+    "event_type": "renewal_failed",
+    "customer_id": "cus_3f3adb56305d",
+    "amount": 1414.09,
+    "currency": "INR",
+    "reason_code": "processor_error",
+    "timestamp": "2026-08-30T14:40:40.598300Z",
+    "metadata": {
+      "customer_name": "Gayathri Chaudry",
+      "subscription_id": "sub_070b163756",
+      "plan": "yearly",
+      "attempt": 2,
+      "tenure_months": 36,
+      "ltv_amount": 106418.93
+    }
+  },
+  {
+    "event_id": "evt_0f8dc0cf6734",
+    "event_type": "renewal_failed",
+    "customer_id": "cus_346602909e78",
+    "amount": 907.88,
+    "currency": "INR",
+    "reason_code": "processor_error",
+    "timestamp": "2026-08-21T05:55:49.109897Z",
+    "metadata": {
+      "customer_name": "Advay Contractor",
+      "subscription_id": "sub_169a033cb3",
+      "plan": "yearly",
+      "attempt": 2,
+      "tenure_months": 20,
+      "ltv_amount": 50655.03
+    }
+  },
+  {
+    "event_id": "evt_4d59af2dedff",
+    "event_type": "invoice_overdue",
+    "customer_id": "cus_c3131ca070c4",
+    "amount": 19446.02,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-08-29T13:49:39.494741Z",
+    "metadata": {
+      "customer_name": "Ayushman Chander",
+      "invoice_number": "INV-2026-0001",
+      "due_date": "2026-05-26",
+      "days_overdue": 106,
+      "account_tier": "starter",
+      "account_reliability": "good",
+      "broken_promise": false,
+      "phone": "+919631581658",
+      "email": "arjunkumarsingh166@gmail.com"
+    }
+  },
+  {
+    "event_id": "evt_c8deaeef3132",
+    "event_type": "invoice_overdue",
+    "customer_id": "cus_2e0e7618fd69",
+    "amount": 190079.5,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-08-13T05:57:25.136884Z",
+    "metadata": {
+      "customer_name": "Lajita Chatterjee",
+      "invoice_number": "INV-2026-0002",
+      "due_date": "2026-08-20",
+      "days_overdue": 20,
+      "account_tier": "starter",
+      "account_reliability": "good",
+      "broken_promise": false,
+      "phone": "+919631581658",
+      "email": "arjunkumarsingh166@gmail.com"
+    }
+  },
+  {
+    "event_id": "evt_5db5ca763ded",
+    "event_type": "invoice_overdue",
+    "customer_id": "cus_b35004d5ab20",
+    "amount": 123231.94,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-09-03T09:57:36.453275Z",
+    "metadata": {
+      "customer_name": "Tara Dhar",
+      "invoice_number": "INV-2026-0003",
+      "due_date": "2026-08-24",
+      "days_overdue": 16,
+      "account_tier": "starter",
+      "account_reliability": "poor",
+      "broken_promise": false,
+      "phone": "+919631581658",
+      "email": "arjunkumarsingh166@gmail.com"
+    }
+  },
+  {
+    "event_id": "evt_99cead599104",
+    "event_type": "invoice_overdue",
+    "customer_id": "cus_1731b9043b25",
+    "amount": 182158.35,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-08-19T14:43:15.541806Z",
+    "metadata": {
+      "customer_name": "Michael Dutta",
+      "invoice_number": "INV-2026-0004",
+      "due_date": "2026-06-01",
+      "days_overdue": 100,
+      "account_tier": "enterprise",
+      "account_reliability": "poor",
+      "broken_promise": true,
+      "phone": "+919631581658",
+      "email": "arjunkumarsingh166@gmail.com"
+    }
+  },
+  {
+    "event_id": "evt_cf7ea33a38ee",
+    "event_type": "invoice_overdue",
+    "customer_id": "cus_b76e066a34aa",
+    "amount": 16744.91,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-09-08T11:54:18.173431Z",
+    "metadata": {
+      "customer_name": "Gavin Batta",
+      "invoice_number": "INV-2026-0005",
+      "due_date": "2026-07-16",
+      "days_overdue": 55,
+      "account_tier": "starter",
+      "account_reliability": "fair",
+      "broken_promise": false,
+      "phone": "+919631581658",
+      "email": "arjunkumarsingh166@gmail.com"
+    }
+  },
+  {
+    "event_id": "evt_9c119909ff30",
+    "event_type": "invoice_overdue",
+    "customer_id": "cus_a819e2c6ac06",
+    "amount": 56605.99,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-08-13T03:04:54.132811Z",
+    "metadata": {
+      "customer_name": "Janaki Handa",
+      "invoice_number": "INV-2026-0006",
+      "due_date": "2026-06-03",
+      "days_overdue": 98,
+      "account_tier": "starter",
+      "account_reliability": "good",
+      "broken_promise": false,
+      "phone": "+919631581658",
+      "email": "arjunkumarsingh166@gmail.com"
+    }
+  },
+  {
+    "event_id": "evt_943a9bb44160",
+    "event_type": "invoice_overdue",
+    "customer_id": "cus_6f513403f9e0",
+    "amount": 5521.77,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-08-24T04:59:21.824690Z",
+    "metadata": {
+      "customer_name": "Gagan Sami",
+      "invoice_number": "INV-2026-0007",
+      "due_date": "2026-08-17",
+      "days_overdue": 23,
+      "account_tier": "enterprise",
+      "account_reliability": "poor",
+      "broken_promise": true,
+      "phone": "+919631581658",
+      "email": "arjunkumarsingh166@gmail.com"
+    }
+  },
+  {
+    "event_id": "evt_15fb9f45e1fa",
+    "event_type": "invoice_overdue",
+    "customer_id": "cus_9f1c4758a843",
+    "amount": 61180.45,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-08-19T04:11:02.245428Z",
+    "metadata": {
+      "customer_name": "Nihal Shere",
+      "invoice_number": "INV-2026-0008",
+      "due_date": "2026-07-10",
+      "days_overdue": 61,
+      "account_tier": "growth",
+      "account_reliability": "fair",
+      "broken_promise": true,
+      "phone": "+919631581658",
+      "email": "arjunkumarsingh166@gmail.com"
+    }
+  },
+  {
+    "event_id": "evt_73d6957d6065",
+    "event_type": "invoice_overdue",
+    "customer_id": "cus_63b7e816cedc",
+    "amount": 56588.15,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-09-03T10:19:30.377478Z",
+    "metadata": {
+      "customer_name": "Liam Koshy",
+      "invoice_number": "INV-2026-0009",
+      "due_date": "2026-08-30",
+      "days_overdue": 10,
+      "account_tier": "enterprise",
+      "account_reliability": "poor",
+      "broken_promise": true,
+      "phone": "+919631581658",
+      "email": "arjunkumarsingh166@gmail.com"
+    }
+  },
+  {
+    "event_id": "evt_43b4c1d15f1c",
+    "event_type": "invoice_overdue",
+    "customer_id": "cus_06fc6f9399b2",
+    "amount": 111189.66,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-08-30T02:55:25.425380Z",
+    "metadata": {
+      "customer_name": "Priya Rastogi",
+      "invoice_number": "INV-2026-0010",
+      "due_date": "2026-06-16",
+      "days_overdue": 85,
+      "account_tier": "growth",
+      "account_reliability": "good",
+      "broken_promise": false,
+      "phone": "+919631581658",
+      "email": "arjunkumarsingh166@gmail.com"
+    }
+  },
+  {
+    "event_id": "evt_2c538b31b907",
+    "event_type": "invoice_overdue",
+    "customer_id": "cus_82c4991e82f2",
+    "amount": 37354.94,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-08-19T22:06:26.040617Z",
+    "metadata": {
+      "customer_name": "Fariq Kaul",
+      "invoice_number": "INV-2026-0011",
+      "due_date": "2026-05-26",
+      "days_overdue": 106,
+      "account_tier": "enterprise",
+      "account_reliability": "good",
+      "broken_promise": false,
+      "phone": "+919631581658",
+      "email": "arjunkumarsingh166@gmail.com"
+    }
+  },
+  {
+    "event_id": "evt_4e08624cb6dc",
+    "event_type": "invoice_overdue",
+    "customer_id": "cus_6dc116badc8e",
+    "amount": 90634.92,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-08-24T18:05:21.361277Z",
+    "metadata": {
+      "customer_name": "Yashica Issac",
+      "invoice_number": "INV-2026-0012",
+      "due_date": "2026-05-26",
+      "days_overdue": 106,
+      "account_tier": "growth",
+      "account_reliability": "poor",
+      "broken_promise": false,
+      "phone": "+919631581658",
+      "email": "arjunkumarsingh166@gmail.com"
+    }
+  },
+  {
+    "event_id": "evt_f1bad139e7bc",
+    "event_type": "invoice_overdue",
+    "customer_id": "cus_0cae9bb403a6",
+    "amount": 102592.07,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-08-25T12:09:33.430863Z",
+    "metadata": {
+      "customer_name": "Dominic Kakar",
+      "invoice_number": "INV-2026-0013",
+      "due_date": "2026-06-11",
+      "days_overdue": 90,
+      "account_tier": "starter",
+      "account_reliability": "fair",
+      "broken_promise": false,
+      "phone": "+919631581658",
+      "email": "arjunkumarsingh166@gmail.com"
+    }
+  },
+  {
+    "event_id": "evt_0291daca8ddb",
+    "event_type": "invoice_overdue",
+    "customer_id": "cus_f79a58527d6d",
+    "amount": 148234.12,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-08-28T19:18:01.979653Z",
+    "metadata": {
+      "customer_name": "Radhika Dugar",
+      "invoice_number": "INV-2026-0014",
+      "due_date": "2026-06-24",
+      "days_overdue": 77,
+      "account_tier": "starter",
+      "account_reliability": "good",
+      "broken_promise": false,
+      "phone": "+919631581658",
+      "email": "arjunkumarsingh166@gmail.com"
+    }
+  },
+  {
+    "event_id": "evt_07c73fae1637",
+    "event_type": "invoice_overdue",
+    "customer_id": "cus_7ca82b242cfa",
+    "amount": 168011.93,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-08-27T22:46:12.313419Z",
+    "metadata": {
+      "customer_name": "Isha Kadakia",
+      "invoice_number": "INV-2026-0015",
+      "due_date": "2026-08-28",
+      "days_overdue": 12,
+      "account_tier": "starter",
+      "account_reliability": "good",
+      "broken_promise": false,
+      "phone": "+919631581658",
+      "email": "arjunkumarsingh166@gmail.com"
+    }
+  },
+  {
+    "event_id": "evt_b234503abb30",
+    "event_type": "invoice_overdue",
+    "customer_id": "cus_8e27886a9af8",
+    "amount": 117368.16,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-09-02T14:03:54.761134Z",
+    "metadata": {
+      "customer_name": "Chakradev Kari",
+      "invoice_number": "INV-2026-0016",
+      "due_date": "2026-06-03",
+      "days_overdue": 98,
+      "account_tier": "starter",
+      "account_reliability": "poor",
+      "broken_promise": false,
+      "phone": "+919631581658",
+      "email": "arjunkumarsingh166@gmail.com"
+    }
+  },
+  {
+    "event_id": "evt_e347dbf74d09",
+    "event_type": "invoice_overdue",
+    "customer_id": "cus_17c2e3800153",
+    "amount": 183634.19,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-08-16T03:17:56.091923Z",
+    "metadata": {
+      "customer_name": "Diya Rattan",
+      "invoice_number": "INV-2026-0017",
+      "due_date": "2026-07-10",
+      "days_overdue": 61,
+      "account_tier": "enterprise",
+      "account_reliability": "poor",
+      "broken_promise": true,
+      "phone": "+919631581658",
+      "email": "arjunkumarsingh166@gmail.com"
+    }
+  },
+  {
+    "event_id": "evt_8123503cddd1",
+    "event_type": "invoice_overdue",
+    "customer_id": "cus_bc4cbaaf3306",
+    "amount": 193965.77,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-08-24T19:02:03.166058Z",
+    "metadata": {
+      "customer_name": "Simon Tata",
+      "invoice_number": "INV-2026-0018",
+      "due_date": "2026-07-15",
+      "days_overdue": 56,
+      "account_tier": "growth",
+      "account_reliability": "poor",
+      "broken_promise": false,
+      "phone": "+919631581658",
+      "email": "arjunkumarsingh166@gmail.com"
+    }
+  },
+  {
+    "event_id": "evt_1588bc7adbf0",
+    "event_type": "invoice_overdue",
+    "customer_id": "cus_0af288c3df4f",
+    "amount": 172257.95,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-08-20T14:05:07.318318Z",
+    "metadata": {
+      "customer_name": "Daksh Karnik",
+      "invoice_number": "INV-2026-0019",
+      "due_date": "2026-07-28",
+      "days_overdue": 43,
+      "account_tier": "enterprise",
+      "account_reliability": "fair",
+      "broken_promise": false,
+      "phone": "+919631581658",
+      "email": "arjunkumarsingh166@gmail.com"
+    }
+  },
+  {
+    "event_id": "evt_4f8699f5b905",
+    "event_type": "invoice_overdue",
+    "customer_id": "cus_8af424e2b302",
+    "amount": 83088.19,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-09-02T12:11:11.631494Z",
+    "metadata": {
+      "customer_name": "Ekiya Suresh",
+      "invoice_number": "INV-2026-0020",
+      "due_date": "2026-07-07",
+      "days_overdue": 64,
+      "account_tier": "starter",
+      "account_reliability": "fair",
+      "broken_promise": false,
+      "phone": "+919631581658",
+      "email": "arjunkumarsingh166@gmail.com"
+    }
+  },
+  {
+    "event_id": "evt_5766b139b150",
+    "event_type": "invoice_overdue",
+    "customer_id": "cus_7d2ae771494b",
+    "amount": 68038.39,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-09-08T19:09:35.034209Z",
+    "metadata": {
+      "customer_name": "Udant Dewan",
+      "invoice_number": "INV-2026-0021",
+      "due_date": "2026-07-12",
+      "days_overdue": 59,
+      "account_tier": "growth",
+      "account_reliability": "good",
+      "broken_promise": false,
+      "phone": "+919631581658",
+      "email": "arjunkumarsingh166@gmail.com"
+    }
+  },
+  {
+    "event_id": "evt_9b035f80bebe",
+    "event_type": "invoice_overdue",
+    "customer_id": "cus_63c7bff71e05",
+    "amount": 5224.46,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-09-05T18:34:16.741680Z",
+    "metadata": {
+      "customer_name": "Arunima Dugal",
+      "invoice_number": "INV-2026-0022",
+      "due_date": "2026-05-21",
+      "days_overdue": 111,
+      "account_tier": "growth",
+      "account_reliability": "poor",
+      "broken_promise": false,
+      "phone": "+919631581658",
+      "email": "arjunkumarsingh166@gmail.com"
+    }
+  },
+  {
+    "event_id": "evt_f5e132550b46",
+    "event_type": "invoice_overdue",
+    "customer_id": "cus_f3f3a0c548ef",
+    "amount": 75546.98,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-09-02T09:15:56.877633Z",
+    "metadata": {
+      "customer_name": "Viraj Tiwari",
+      "invoice_number": "INV-2026-0023",
+      "due_date": "2026-07-18",
+      "days_overdue": 53,
+      "account_tier": "enterprise",
+      "account_reliability": "good",
+      "broken_promise": false,
+      "phone": "+919631581658",
+      "email": "arjunkumarsingh166@gmail.com"
+    }
+  },
+  {
+    "event_id": "evt_84d455b282e5",
+    "event_type": "invoice_overdue",
+    "customer_id": "cus_346602909e78",
+    "amount": 112097.83,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-09-07T12:33:04.018430Z",
+    "metadata": {
+      "customer_name": "Advay Contractor",
+      "invoice_number": "INV-2026-0024",
+      "due_date": "2026-07-14",
+      "days_overdue": 57,
+      "account_tier": "growth",
+      "account_reliability": "good",
+      "broken_promise": false,
+      "phone": "+919631581658",
+      "email": "arjunkumarsingh166@gmail.com"
+    }
+  },
+  {
+    "event_id": "evt_1fa735fab33a",
+    "event_type": "invoice_overdue",
+    "customer_id": "cus_d9e9a4c92dc3",
+    "amount": 10629.54,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-08-29T14:14:33.964316Z",
+    "metadata": {
+      "customer_name": "Anamika Kanda",
+      "invoice_number": "INV-2026-0025",
+      "due_date": "2026-05-19",
+      "days_overdue": 113,
+      "account_tier": "starter",
+      "account_reliability": "poor",
+      "broken_promise": true,
+      "phone": "+919631581658",
+      "email": "arjunkumarsingh166@gmail.com"
+    }
+  },
+  {
+    "event_id": "evt_5aca97f96280",
+    "event_type": "invoice_overdue",
+    "customer_id": "cus_3ecc7a0913f6",
+    "amount": 7666.52,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-08-22T22:22:48.083776Z",
+    "metadata": {
+      "customer_name": "Aryan Maharaj",
+      "invoice_number": "INV-2026-0026",
+      "due_date": "2026-06-10",
+      "days_overdue": 91,
+      "account_tier": "starter",
+      "account_reliability": "good",
+      "broken_promise": false,
+      "phone": "+919631581658",
+      "email": "arjunkumarsingh166@gmail.com"
+    }
+  },
+  {
+    "event_id": "evt_f71b40894bed",
+    "event_type": "invoice_overdue",
+    "customer_id": "cus_c071e6108fd4",
+    "amount": 27905.9,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-09-04T15:46:11.328730Z",
+    "metadata": {
+      "customer_name": "Harini Choudhury",
+      "invoice_number": "INV-2026-0027",
+      "due_date": "2026-05-24",
+      "days_overdue": 108,
+      "account_tier": "growth",
+      "account_reliability": "good",
+      "broken_promise": false,
+      "phone": "+919631581658",
+      "email": "arjunkumarsingh166@gmail.com"
+    }
+  },
+  {
+    "event_id": "evt_c084b1ef4ffa",
+    "event_type": "invoice_overdue",
+    "customer_id": "cus_650c3ea0516e",
+    "amount": 142555.27,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-08-23T03:46:47.191209Z",
+    "metadata": {
+      "customer_name": "Rushil Saini",
+      "invoice_number": "INV-2026-0028",
+      "due_date": "2026-05-12",
+      "days_overdue": 120,
+      "account_tier": "growth",
+      "account_reliability": "poor",
+      "broken_promise": true,
+      "phone": "+919631581658",
+      "email": "arjunkumarsingh166@gmail.com"
+    }
+  },
+  {
+    "event_id": "evt_8cdc33d10626",
+    "event_type": "invoice_overdue",
+    "customer_id": "cus_3154a7951d8c",
+    "amount": 33205.18,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-08-16T09:51:58.303818Z",
+    "metadata": {
+      "customer_name": "Yashica Cherian",
+      "invoice_number": "INV-2026-0029",
+      "due_date": "2026-07-10",
+      "days_overdue": 61,
+      "account_tier": "enterprise",
+      "account_reliability": "good",
+      "broken_promise": false,
+      "phone": "+919631581658",
+      "email": "arjunkumarsingh166@gmail.com"
+    }
+  },
+  {
+    "event_id": "evt_4a8e9d04e6f5",
+    "event_type": "invoice_overdue",
+    "customer_id": "cus_32956832367d",
+    "amount": 173485.25,
+    "currency": "INR",
+    "reason_code": null,
+    "timestamp": "2026-08-18T23:31:29.490436Z",
+    "metadata": {
+      "customer_name": "Kashvi Edwin",
+      "invoice_number": "INV-2026-0030",
+      "due_date": "2026-07-05",
+      "days_overdue": 66,
+      "account_tier": "growth",
+      "account_reliability": "poor",
+      "broken_promise": false,
+      "phone": "+919631581658",
+      "email": "arjunkumarsingh166@gmail.com"
+    }
+  }
+]

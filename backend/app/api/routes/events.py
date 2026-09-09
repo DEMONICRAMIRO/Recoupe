@@ -3,14 +3,11 @@
 Two endpoints:
   POST /events/ingest         — synthetic event ingest (existing, unchanged)
   POST /events/razorpay-webhook — real Razorpay webhook receiver (Phase 5)
-  POST /events/run-batch      — trigger run_batch.py subprocess for Live run demo
+  POST /events/run-batch      — run the bundled synthetic batch in-process for Live run demo
 """
 import hashlib
 import hmac
 import logging
-import subprocess
-import sys
-from pathlib import Path
 
 from fastapi import APIRouter, BackgroundTasks, Header, HTTPException, Request, status
 
@@ -21,6 +18,7 @@ from app.adapters.razorpay_adapter import (
     verify_webhook_signature,
 )
 from app.agents.graph import run_event
+from app.core.batch_runner import EVENTS_PATH, run_synthetic_batch
 from app.core.config import settings
 from app.core.live_status import finish_batch, start_batch
 from app.schemas.agent import SubAgentResponse
@@ -28,10 +26,6 @@ from app.schemas.event import Event
 
 logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/events", tags=["events"])
-
-# Resolved path to run_batch.py (repo root = 4 levels above this file)
-_REPO_ROOT = Path(__file__).resolve().parents[4]   # backend/app/api/routes/events.py → [4] = Recoupe
-_RUN_BATCH_SCRIPT = _REPO_ROOT / "scripts" / "run_batch.py"
 
 
 @router.post("/ingest", response_model=SubAgentResponse)
@@ -134,29 +128,33 @@ async def razorpay_webhook(
 
 
 def _run_batch_background() -> None:
-    """Subprocess runner for the Live run view's 'Run batch' button."""
-    start_batch()
+    """In-process batch runner for the Live run view's 'Run batch' button.
+
+    Runs in-process (not a subprocess) so each agent's update_live_status()
+    calls land in this process's in-memory live_status store — the same
+    store GET /live-status reads from.
+    """
     try:
-        subprocess.run(
-            [sys.executable, str(_RUN_BATCH_SCRIPT)],
-            check=False,
-            capture_output=False,
-        )
+        stats = run_synthetic_batch()
+        logger.info("run_batch: completed — %s", stats)
+    except Exception:
+        logger.exception("run_batch: batch execution failed")
     finally:
         finish_batch()
 
 
 @router.post("/run-batch")
 def run_batch(background_tasks: BackgroundTasks) -> dict:
-    """Trigger run_batch.py as a background subprocess for the Live run view.
+    """Trigger the bundled synthetic batch as a background task for the Live run view.
 
-    Returns immediately; the batch runs asynchronously. The frontend polls
-    GET /live-status to watch progress.
+    Returns immediately; the batch runs asynchronously in-process. The
+    frontend polls GET /live-status to watch progress.
     """
-    if not _RUN_BATCH_SCRIPT.exists():
+    if not EVENTS_PATH.exists():
+        logger.error("run_batch: bundled events file not found at %s", EVENTS_PATH)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"run_batch.py not found at {_RUN_BATCH_SCRIPT}",
+            detail=f"Synthetic events file not found at {EVENTS_PATH}",
         )
     start_batch()
     background_tasks.add_task(_run_batch_background)
