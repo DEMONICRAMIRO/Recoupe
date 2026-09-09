@@ -375,8 +375,8 @@ function GateRulesPage() {
                   <span className="gate-rule-val">{String(v)}</span>
                 </div>
               ))}
-              {rules.notes && (
-                <p style={{ fontSize: 11.5, color: 'var(--text-3)', marginTop: 8, lineHeight: 1.4 }}>{rules.notes as string}</p>
+              {typeof rules.notes === 'string' && (
+                <p style={{ fontSize: 11.5, color: 'var(--text-3)', marginTop: 8, lineHeight: 1.4 }}>{rules.notes}</p>
               )}
             </div>
           )
