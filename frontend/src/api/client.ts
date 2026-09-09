@@ -1,7 +1,9 @@
 // API client — all calls to backend endpoints
 // Vite proxies /api/* → http://localhost:8000/*
 
-const BASE = '/api'
+const BASE = import.meta.env.VITE_API_BASE_URL
+  ? `${import.meta.env.VITE_API_BASE_URL}/api`
+  : '/api'
 
 async function get<T>(path: string, params?: Record<string, string>): Promise<T> {
   const url = new URL(`${BASE}${path}`, window.location.origin)
