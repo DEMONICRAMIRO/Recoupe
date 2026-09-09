@@ -130,3 +130,117 @@ Running log for the buildathon demo. The judges want the 2am war stories, so ent
 ### Servers
 - Backend: cd backend; uvicorn app.main:app --reload ? http://localhost:8000
 - Frontend: cd frontend; npm run dev ? http://localhost:5173
+
+---
+
+## Deployment (Phase 5)
+
+Getting Phase 5 from "tests pass locally" to "live on the internet" surfaced a
+new category of bug entirely: things that only break once code leaves a
+single machine with one shared filesystem. Logged in the order they hit.
+
+- **Supabase connection setup — password auth failures, then transaction
+  pooler config.** Getting the backend talking to a real hosted Postgres
+  instead of local Postgres took more than dropping in a connection string:
+  the first attempts failed on password authentication, then needed the
+  connection routed through Supabase's transaction pooler (rather than a
+  direct connection) to actually hold up under the app's connection
+  pattern. Once both were sorted, `DATABASE_URL` pointed at Supabase and
+  Alembic migrations ran clean against it.
+
+- **Railway backend deployment — three separate problems, not one.**
+  - **Root Directory / Start Command settings silently not applying.**
+    Railway's dashboard settings for where to build from and how to start
+    the process didn't take effect on the deploy they were saved under —
+    the fix was forcing a fresh deploy rather than trusting the existing
+    build to pick up the new settings.
+  - **An intermittent Railway build-infra failure.** One deploy attempt
+    failed for reasons on Railway's side rather than the app's — resolved
+    by retrying, not by changing anything in the repo.
+  - **psycopg2 vs psycopg3 driver mismatch (commit `de8a117`).**
+    `backend/requirements.txt` had `psycopg[binary]` (psycopg **3**), but
+    `backend/app/db/session.py` calls `create_engine(settings.database_url)`
+    with a plain `postgresql://` URL — no `+psycopg` driver suffix — which
+    makes SQLAlchemy default to the psycopg**2** dialect. With only psycopg
+    3 installed, that import isn't there, so the backend failed to start
+    against the real Postgres/Supabase connection. Fixed by pinning
+    `psycopg2-binary` instead.
+
+- **Vercel frontend deployment — three problems in sequence, each masking
+  the next.**
+  - **TypeScript build errors (commit `7a4d0fe`).** `import.meta.env` was
+    unrecognized by `tsc` — `error TS2339: Property 'env' does not exist on
+    type 'ImportMeta'` — because nothing referenced Vite's ambient client
+    types; fixed by adding `frontend/src/vite-env.d.ts` with
+    `/// <reference types="vite/client" />`. Alongside it, an unchecked
+    `rules.notes as string` cast in the Gate Rules view was replaced with a
+    runtime `typeof rules.notes === 'string'` check.
+  - **CORS block from a missing `FRONTEND_ORIGIN`.** With the build fixed,
+    the deployed frontend calling the deployed backend failed in the
+    browser console with `TypeError: Failed to fetch` — no HTTP status, no
+    response body, the signature of a request the browser refuses to let
+    JS see. `backend/app/main.py`'s `CORSMiddleware` only allow-listed
+    `settings.frontend_origin`, which defaults to `http://localhost:5173`,
+    plus the two local dev ports — the real Vercel domain
+    (`https://recoupe-umber.vercel.app`) was never in the list. Fixed by
+    setting `FRONTEND_ORIGIN` in Railway's variables and redeploying.
+  - **Incorrect `/api` path prefix in `client.ts` (commit `771609c`,
+    PR #1).** Once CORS stopped blocking the request, every call 404'd
+    instead. `client.ts`'s `BASE` was building URLs as
+    `${VITE_API_BASE_URL}/api${path}` — but the FastAPI backend's routers
+    (`backend/app/api/routes/*.py`) are mounted with no `/api` prefix at
+    all; that prefix only ever existed because Vite's local dev proxy
+    strips it before forwarding to `localhost:8000`
+    (`frontend/vite.config.ts`). In production there's no such proxy, so
+    `/api/metrics/summary` hit a route that doesn't exist. Fixed by making
+    `BASE` just `import.meta.env.VITE_API_BASE_URL || '/api'` — no `/api`
+    appended in production, still falls back to the proxied path locally.
+
+- **`POST /events/run-batch` returned a silent 500 (commit `9ff1468`,
+  PR #2).** Railway's deploy logs showed nothing but a bare `500` access
+  log line — no traceback — because the failure was a deliberately raised
+  `HTTPException`, not an unhandled exception, so FastAPI never logged a
+  stack trace for it. Root cause: `scripts/run_batch.py` and
+  `data/synthetic/events.json` both live outside `backend/`, and Railway's
+  service Root Directory is set to `/backend`, so neither file ships in
+  the deployed container — the endpoint's `.exists()` guard on the script
+  path failed every time. Digging further also found the design was broken
+  even where the file existed: the endpoint shelled out to
+  `run_batch.py` as a **subprocess**, and each agent's `update_live_status()`
+  call only mutates an in-memory dict in the FastAPI server's own process —
+  so a subprocess's progress could never have shown up in `GET
+  /live-status` even on a machine where the script was present. Fixed by
+  bundling a static demo snapshot into `backend/app/data/synthetic/events.json`
+  and running the batch in-process via a new `app.core.batch_runner`
+  module instead of `subprocess.run(...)`, plus wrapping execution in
+  `try`/`except Exception: logger.exception(...)` so any future failure
+  produces a real traceback instead of a silent 500.
+
+### Known limitation, documented rather than silently ignored
+
+**Real SMS/email/voice delivery fails in production with network-level
+errors**, distinct from every issue above. A local reproduction of the same
+failure shape (simulated Twilio/SMTP credentials present but the network
+calls themselves failing) produced:
+
+```
+HTTPSConnectionPool(host='api.twilio.com', port=443): Max retries exceeded
+with url: /2010-04-01/Accounts/.../Messages.json (Caused by
+ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed:
+403 Forbidden')))
+```
+for SMS/voice, and
+```
+[Errno -2] Name or service not known
+```
+for SMTP email — a DNS resolution failure reaching the SMTP host.
+
+Both are network-level failures, not auth or code errors — the working
+hypothesis is a Railway platform-level restriction on outbound proxy/SMTP
+traffic, not anything in this codebase. (Separately, commit `56e2b11`
+fixed the audit trail so a delivery failure's *real* error message is now
+captured in `reasoning` and logged via `logger.error` — before that fix,
+a failed send only ever showed the bare word `"failed"` with no way to
+diagnose why, in the UI or in Railway's logs.) This is currently
+**unresolved** — flagged here rather than left for someone to discover the
+hard way.

@@ -41,6 +41,8 @@ flowchart TD
 
 **⚠️ Provider status (as of Phase 2):** business-initiated WhatsApp delivery is currently **blocked** on the Twilio account in use — the `send_whatsapp()` function is fully implemented and tested, but live delivery does not go through. Every agent's "WhatsApp" channel currently falls back to `send_sms()` in practice. Do not spend Phase 3 time re-investigating this — build Cart and Renewal against SMS as the working channel, and treat WhatsApp delivery as a stretch fix only if time remains in Phase 5/6. Update this note the moment the block clears.
 
+**⚠️ Production delivery status (as of the Railway deploy):** all four Comms Layer functions (`send_email()`, `send_sms()`, `send_whatsapp()`, `place_voice_call()`) work locally, but on the deployed Railway backend, real sends fail with **network-level** errors — a Twilio proxy connection refused with `403 Forbidden`, and SMTP failing DNS resolution before it can even attempt to connect. This is not an auth or code problem; the working hypothesis is a Railway platform-level restriction on outbound proxy/SMTP traffic. Unresolved — full detail and the reproduced error text in `docs/demo-notes.md`'s Deployment section. Every send failure is now at least fully diagnosable (the real error is logged and captured in the audit trail's `reasoning` field), but the underlying network restriction itself is still open.
+
 ## 4. Sub-Agent Internal Pipeline (generic pattern)
 
 Every sub-agent follows this exact six-stage shape. This consistency is a deliberate design choice — don't let any sub-agent skip a stage or reorder it.
@@ -105,9 +107,11 @@ Event {
 | Layer | Choice | Why |
 |---|---|---|
 | Backend | FastAPI (Python) | Already used in Intra, async-friendly for ingestion |
+| Backend hosting | Railway | Deployed from `backend/` as the service Root Directory — see `docs/demo-notes.md`'s Deployment section for the driver/path issues this surfaced |
+| Frontend hosting | Vercel | Deployed from `frontend/`; `VITE_API_BASE_URL` points it at the Railway backend URL |
 | Orchestration | LangGraph | Same primitive as Intra's six-node graph, proven pattern |
 | LLM inference | Groq (`https://api.groq.com/openai/v1/chat/completions`, model `openai/gpt-oss-120b` via `llm_client.py`) | OpenCode Go gateway hit its usage limit mid-Phase 3; switched to Groq with a confirmed-live GPT OSS 120B model (131k context, tools + structured output support). Endpoint and model ID verified against Groq's live `/v1/models` API before wiring — not assumed from memory. |
-| Database | Supabase/Postgres | Already used in Intra, gives relational tables + instant REST |
+| Database (production) | Supabase (Postgres) | Real hosted Postgres the deployed Railway backend connects to, via Supabase's transaction pooler — distinct from the local Postgres instance used in dev, which is not Supabase |
 | Frontend | React + Vite + TypeScript | Already used in Intra, dark terminal aesthetic reusable |
 | Synthetic data | Python `faker` | Realistic fake data with minimal code |
 
